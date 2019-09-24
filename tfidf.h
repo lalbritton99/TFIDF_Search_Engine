@@ -20,7 +20,7 @@ class tf_idf {
 		void SetName(string nameInput);					// mutator for name
 		string GetName();								// accessor for name
 		
-		void SetTF(int tfInput);						// mutator for tf
+		void SetTF();									// mutator for tf
 		int GetTF();									// accessor for tf
 		
 		void SetIDF(double idfInput);					// mutator for idf
