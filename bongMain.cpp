@@ -61,6 +61,11 @@ int main()
 		}
 	}
 
+	// fixme
+	string testStr = "abdFUCKdef";
+	size_t found = testStr.find("FUCK");
+	cout << found << endl << endl << endl;
+
 	//
 
 	return 0;
