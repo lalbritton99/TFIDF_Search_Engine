@@ -4,16 +4,23 @@
 #include <fstream>
 using namespace std;
 
-//#include "tfidf.h"
+#include "tfidfCol.h"
 //#include "document.h"
 //#include "documentCol.h"
 
-int main()
-{
+int main() {
+	
+	tf_idfCol tfidfClass;	// instance of the tfidf collection class
+	
+	tfidfClass.FindTF();	// TEMPORARY FOR TESTING
+	tfidfClass.Print();	// TEMPORARY FOR TESTING
+		
+
 	string documentsFile = "";
 	string stopwordsFile = "";
 	ifstream documents;
 	ifstream stopwords;
+
 
 	return 0;
 }
