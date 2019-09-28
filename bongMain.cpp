@@ -13,7 +13,7 @@ int main() {
 	tf_idfCol tfidfClass;	// instance of the tfidf collection class
 	
 	tfidfClass.FindTF();	// TEMPORARY FOR TESTING
-	tfidfClass.Print();	// TEMPORARY FOR TESTING
+	tfidfClass.Print();		// TEMPORARY FOR TESTING
 		
 
 	string documentsFile = "";

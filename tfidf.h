@@ -20,9 +20,9 @@ class tf_idf {
 		int GetID();									// accessor for id
 		
 		void SetName(string nameInput);					// mutator for name
-		string GetName() const;								// accessor for name
+		string GetName() const;							// accessor for name
 		
-		void SetTF(int tfInput);							// mutator for tf
+		void SetTF(int tfInput);						// mutator for tf
 		int GetTF();									// accessor for tf
 		
 		void SetIDF(double idfInput);					// mutator for idf
@@ -33,4 +33,4 @@ class tf_idf {
 };
 
 bool operator < (const tf_idf &t1, const tf_idf &t2);
-bool operator == (const tf_idf &t1, const tf_idf &t2);
+bool operator == (const tf_idf &t1, const tf_idf &t2); 
