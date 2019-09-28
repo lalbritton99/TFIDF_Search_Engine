@@ -14,4 +14,6 @@ class tf_idfCol {
 		void FindIDF();								// function to find the idf for every word
 		void FindTFIDF();							// function to find the tf-idf for every word
 		void Print();								// prints out the tf, idf, tf-idf, and the word for every unique word in the first document 
+		
 };
+
