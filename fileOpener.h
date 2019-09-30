@@ -1,31 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
+#include <vector>
 //#include <document.h> // this function will read a file into instance of document class
+using namespace std;
 
-void fileOpener(string file_type, string file_name)
-{
-	while(true)
-	{
-		cout << endl;
-		cout << file_type << " file name: ";
-		cin >> stopwordsFile;
+void fileOpener(string file_type);
 
-		// fixme
-		cout << "s: " << stopwordsFile << endl;
-
-		stopwords.open(stopwordsFile);
-
-		if (!stopwords.is_open())
-		{
-			cout << endl;
-			cout << "--- Stopwords file " << stopwordsFile << " does not exist. Try Again ---" << endl;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	// return <NAME OF DOCUMENT CLASS INSTANCE>
-}
+//	file_type
+//	options for this parameter include:
+//		"Documents" - indicates the documents file
+//		"Stopwords" - indicates the stopwords file
+//	THE PARAMETER MUST BE ENTERED EXACTLY AS SHOWN (capitalize first letter)

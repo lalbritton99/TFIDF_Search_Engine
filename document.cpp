@@ -3,14 +3,14 @@
 // constructor
 document::document()
 {
-	ID = 0;									
-	title = "";								
-	author = "";									
-	// vector already initialized?							
+	ID = "0";
+	title = "";
+	author = "";
+	content.clear();
 }
 
 // set values in class
-void document::SetID(int ID)
+void document::SetID(string ID)
 {
 	this->ID = ID;
 }
@@ -22,13 +22,13 @@ void document::SetAuthor(string author)
 {
 	this->author = author;
 }
-void document::SetContent(vector content)
+void document::SetContent(vector<string> content)
 {
 	this->content = content;
 }
 
 // get values from class
-int GetID()
+string GetID()
 {
 	return ID;
 }
@@ -40,7 +40,7 @@ string GetAuthor()
 {
 	return author;
 }
-vector GetContent()
+vector<string> GetContent()
 {
 	return content;
 }

@@ -6,20 +6,20 @@ using namespace std;
 class document
 {
 	private:
-		int ID;								// .I
+		string ID;								// .I
 		string title;						// .T
 		string author;						// .A
 		vector<string> content;				// .W
 	public:
 		document();
 
-		void SetID(int ID);
+		void SetID(string ID);
 		void SetTitle(string title);
 		void SetAuthor(string author);
-		void SetContent(vector content);
+		void SetContent(vector<string> content);
 
-		int GetID();
+		string GetID();
 		string GetTitle();
 		string GetAuthor();
-		vector GetContent();
+		vector<string> GetContent();
 };
