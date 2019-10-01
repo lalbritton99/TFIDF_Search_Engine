@@ -22,11 +22,12 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 	int counter = 0;			// used to keep track of if the word has been used before or not, increments the TF by either 0, or 1
 	tf_idf tfidfObject; 		// object for the tf_idf class
 	bool canSet = 1;			// turns false when a duplicate is found, not allowing it to be added to the vector
+	int docCounter = 0;			// counts the number of docs get entered into this function 
 	
 	int numWords;				// TEMPORARY
 	string word;				// TEMPORARY
 	vector<string>AllWords;		// TEMPORARY
-	int tempID = 1;					//TEMPORARY
+	int tempID = 1;				//TEMPORARY
 	
 	// Getting the temporary vector
 	cout << "Enter the number of words to enter: ";
@@ -37,6 +38,8 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 		cin >> word;
 		AllWords.push_back(word);
 	}
+	
+	docCounter++;
 	
 	// Checking every word, copying it into new vector, and increasing term frequency when neccessary
 	for(unsigned int i = 0; i < AllWords.size(); i++) 
@@ -61,7 +64,7 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 					counter = 1;
 					canSet = 0;								// duplicate words do not get added to the vector
 					tfidfVec[j].SetTF(counter);				// increases TF for the re-used words
-					tfidfVec[j].SetDocsAppearedIn(++counter);
+					tfidfVec[j].SetDocsAppearedIn(counter++);
 					//TODO: add to docsAppearedIn - check for multiple IDs
 				}
 			}
@@ -89,9 +92,12 @@ void tf_idfCol::FindIDF(){
 	
 	for(int i = 0; i < size; i++)
 	{
-		tempIDF = log(3 / tfidfVec[i].GetDocsAppearedIn());
+		tempIDF = log(1 / tfidfVec[i].GetDocsAppearedIn());
 		tfidfVec[i].SetIDF(tempIDF);
 	}
+	
+	// '1' will become the size of the document vector 
+	// "tfidfVec[i].GetDocsAppearedIn()" will need to return the number of docs a certain word appears in
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::FindTFIDF(){
