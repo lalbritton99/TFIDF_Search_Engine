@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iomanip>
+#include <cmath>
 
 tf_idfCol::tf_idfCol(){									// constructer
 	firstDocID = 0;
@@ -25,6 +26,7 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 	int numWords;				// TEMPORARY
 	string word;				// TEMPORARY
 	vector<string>AllWords;		// TEMPORARY
+	int tempID = 1;					//TEMPORARY
 	
 	// Getting the temporary vector
 	cout << "Enter the number of words to enter: ";
@@ -47,6 +49,7 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 			counter = 1;
 			tfidfObject.SetName(AllWords[i]);		// sets the name of the word
 			tfidfObject.SetTF(counter);				// sets the TF
+			tfidfObject.SetDocsAppearedIn();		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
 			tfidfVec.push_back(tfidfObject);		// copies to the tfidf vector
 		}
 		else 
@@ -58,6 +61,8 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 					counter = 1;
 					canSet = 0;								// duplicate words do not get added to the vector
 					tfidfVec[j].SetTF(counter);				// increases TF for the re-used words
+					
+					//TODO: add to docsAppearedIn - check for multiple IDs
 				}
 			}
 			
@@ -66,24 +71,42 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 				counter = 0;
 				tfidfObject.SetName(AllWords[i]);		// sets the name of the word
 				tfidfObject.SetTF(counter);				// sets the TF for the word
+				tfidfObject.SetDocsAppearedIn();		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
 				tfidfVec.push_back(tfidfObject);		// copies to the tfidf vector
 			}
 		}
 	}
 	
-	// Sorting tfidf vector 
+	// Sorting tfidf vector alphabetically
 	sort(tfidfVec.begin(), tfidfVec.end()); 
 	
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::FindIDF(){
 	
+	unsigned int size = tfidfVec.size();	// sets the size of the TFIDF vector
+	double tempIDF;							// temporary IDF variable
+	
+	for(int i = 0; i < size; i++)
+	{
+		cout << tfidfVec[i].GetDocsAppearedIn() << endl;
+		tempIDF = log(size / tfidfVec[i].GetDocsAppearedIn());
+		tfidfVec[i].SetIDF(tempIDF);
+	}
 }
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::FindTFIDF(){
-	// loop through all parts of the tfidf Vector
-	// for every word, multiply the TF by the IDF
-	// store in the TFIDF for that instance of the vector
+	
+	unsigned int size = tfidfVec.size();	// sets the size of the TFIDF vector
+	double tempTFIDF;						// temporary TFIDF variable
+	
+	for(int i = 0; i < size; i++)
+	{
+		tempTFIDF = tfidfVec[i].GetTF() * tfidfVec[i].GetIDF();
+		tfidfVec[i].SetTFIDF(tempTFIDF);
+	}
 }
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first doc
 	
 	unsigned int size = tfidfVec.size();	// sets the size of the vector

@@ -5,7 +5,8 @@ tf_idf::tf_idf(){										// constructor
 	name = "none";								
 	tf = 0;									
 	idf = 0;								
-	tfidf = 0;								
+	tfidf = 0;	
+	docsAppearedIn = 0;
 }
 
 void tf_idf::SetID(int idInput){						// mutator for id
@@ -18,11 +19,11 @@ int tf_idf::GetID(){									// accessor for id
 void tf_idf::SetName(string nameInput){					// mutator for name
 	name = nameInput;
 }
-string tf_idf::GetName() const{								// accessor for name
+string tf_idf::GetName() const{							// accessor for name
 	return name;
 }
 	
-void tf_idf::SetTF(int tfInput){									// mutator for tf
+void tf_idf::SetTF(int tfInput){						// mutator for tf
 	tf += tfInput;
 }
 int tf_idf::GetTF(){									// accessor for tf
@@ -43,11 +44,14 @@ double tf_idf::GetTFIDF(){								// accessor for tfidf
 	return tfidf;
 }
 
-bool operator < (const tf_idf &t1, const tf_idf &t2)
+void tf_idf::SetDocsAppearedIn(){
+	docsAppearedIn++;
+}
+int tf_idf::GetDocsAppearedIn(){
+	return docsAppearedIn;
+}
+
+bool operator < (const tf_idf &t1, const tf_idf &t2)	// used to sort the tfidf vector alphabetically
 {
     return t1.GetName() < t2.GetName();
-}
-bool operator == (const tf_idf &t1, const tf_idf &t2)
-{
-    return t1.GetName() == t2.GetName();
 }
