@@ -130,4 +130,13 @@ void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first d
 	}
 	
 }
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+int tf_idfCol::getTFIDFVecSize(){	// returns size of TFIDF vector
+	return tfidfVec.size();
+}
+
+tf_idf tf_idfCol::getTFIDF(int index){	// returns TFIDF at given index in TFIDF vector
+	return tfidfVec[index];
+}
+
 
