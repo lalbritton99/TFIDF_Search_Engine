@@ -5,9 +5,6 @@ string portStem(string word){
 	int m; //Integer for measure of each word
 	int step1B = 0;
 	m = getM(word); //Calculate measure
-	cout << m << endl; //FIXME
-	
-	cout << word << " " << string::npos << " " << word.find("ies") << " " << word.size()-3 << endl;
 
 	//Step 1a for porterstemming
 	if(word.size() > 4 && word.find("sses", word.size()-4) != string::npos){
@@ -22,15 +19,13 @@ string portStem(string word){
 	else if ((word.at(word.size()-1)) == 's'){
 		word.replace(word.size()-1, 1, "");
 	}
-	cout << "MADE IT HERE" << endl;
-	cout << word << " " << m << " " << getM(word.substr(0, word.size()-3)) << endl;
+
 	//Step 1b
 	if((word.size() > 3 && getM(word.substr(0, word.size()-3)) > 0) && (word.find("eed", word.size()-3) != string::npos)){
 		word.replace(word.find("eed"), 3, "ee");
 	}
-	else if((word.size() > 2 && hasVowel(word.substr(0, word.size()-2))) && (word.find("ed", word.size()-2) != string::npos))
+	else if((word.size() > 2 && hasVowel(word.substr(0, word.size()-2))) && (word.find("ed", word.size()-2) != string::npos) && word.at(word.size()-3) != 'e')
 	{
-		cout << "HRE" << endl;
 		word.replace(word.find("ed"), 2, "");
 		step1B = 1;//Show step 1b part two was executed
 	}
@@ -39,7 +34,6 @@ string portStem(string word){
 		step1B = 1;//Show step 1b part three was executed
         }
 	if(step1B == 1){
-		cout << "HERE NEO" << " " << word << endl;
 		if(word.substr(word.size()-2, 2) == "at"){
 			word += "e";
 		}
@@ -70,7 +64,7 @@ string portStem(string word){
 	if(word.size() > 7 && getM(word.substr(0, word.size()-7)) > 0 && (word.find("ational") != -1)){
 		word.replace(word.find("ational"), 7, "ate");
 	}
-	else if(word.size() > 6 && getM(word.substr(0, word.size()-6)) > 0 && (word.find("tional") != -1)){ //FIXME
+	else if(word.size() > 6 && getM(word.substr(0, word.size()-6)) > 0 && (word.find("tional") != -1)){
                 word.replace(word.find("tional"), 6, "tion");
         }
 	else if(word.size() > 6 && getM(word.substr(0, word.size()-4)) > 0 && (word.find("enci") != -1)){
@@ -224,60 +218,55 @@ string portStem(string word){
 	if(word.size() > 1 && getM(word.substr(0, word.size()-1)) > 1 && (word.at(word.size()-1) == 'l' && word.at(word.size()-2) == 'l' )){
 		word.replace(word.size()-1, 1, "");
 	}
-	
-
-
-
 
 	return word;
 }
 
 
 
-int getM(string word){
-	int m = 0;
-	for(int i = 0; i < word.size(); i++){
-		if((isVowel(word.at(i))))
+int getM(string word){ //Used to find the measure of a word. The number of times there is a vowel or group of vowels followed by a consonant or group of consonants
+	int m = 0; //Set measure to 0
+	for(int i = 0; i < word.size(); i++){ //Loop through the entire word
+		if((isVowel(word.at(i)))) //Check if the current letter is a vowel
 		{
-			if(i != (word.size() - 1)){
-				if((!(isVowel(word.at(i+1))))){
-					m++;
+			if(i != (word.size() - 1)){ //Check if the letter is the last in the word
+				if((!(isVowel(word.at(i+1))))){ //CHheck if the following letter is a consonant
+					m++; //If it is increase measure by 1
 				}
 			}
 		}
-		else if((word.at(i) == 'y') || (word.at(i) == 'Y')){
-			if(i != 0){
-				if((!(isVowel(word.at(i-1))))){
-					if(i != (word.size() - 1)){
-						if((!(isVowel(word.at(i+1))))){
-
-							m++;
+		else if((word.at(i) == 'y') || (word.at(i) == 'Y')){//Check if the letter is a y
+			if(i != 0){ //Check that the y is not the first letter
+				if((!(isVowel(word.at(i-1))))){ //Check if the letter before the y is a consonant, making the y a vowel.
+					if(i != (word.size() - 1)){ //Check if the y is the last letter
+						if((!(isVowel(word.at(i+1))))){ //Check if a consonant follows the y
+							m++; //If so, increase measure by 1
 						}
 					}
 				}
 			}
 		}
 	}
-	return m;
+	return m; //Return measure
 }
 
-int hasVowel(string word){
-	for(int i = 0; i < word.size(); i++){
-		if((isVowel(word.at(i))))
+int hasVowel(string word){ //Checks if a word contains a vowel
+	for(int i = 0; i < word.size(); i++){ //Loop through the word
+		if((isVowel(word.at(i)))) //Check if the current letter is a vowel
                 {
-			return true;
+			return true; //Return true if a vowel is found
 		}
 	}
-	return false;
+	return false; //If no vowels are found, return false
 }
 
-bool isVowel(char let){
-	if((let == 'a') || (let == 'A') || (let == 'e') || (let == 'E') || (let == 'i') || (let == 'I') || (let == 'o') || (let == 'O') || (let == 'u') || (let == 'U'))
+bool isVowel(char let){ //Check if a letter is a vowel
+	if((let == 'a') || (let == 'A') || (let == 'e') || (let == 'E') || (let == 'i') || (let == 'I') || (let == 'o') || (let == 'O') || (let == 'u') || (let == 'U')) //Check if a letter is a vowel (a, e, i, o, or u)
 	{
-		return true;
+		return true; //if it is, return true
 	}
 	else {
-		return false;
+		return false; //If it is not, return false
 	}
 }
 
