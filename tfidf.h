@@ -31,7 +31,7 @@ class tf_idf {
 		void SetTFIDF(double tfidfInput);				// mutator for tfidf
 		double GetTFIDF();								// accessor for tfidf
 		
-		void SetDocsAppearedIn();
+		void SetDocsAppearedIn(int idInput);
 		int GetDocsAppearedIn();
 };
 

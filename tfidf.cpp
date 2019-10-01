@@ -44,8 +44,8 @@ double tf_idf::GetTFIDF(){								// accessor for tfidf
 	return tfidf;
 }
 
-void tf_idf::SetDocsAppearedIn(){
-	docsAppearedIn++;
+void tf_idf::SetDocsAppearedIn(int idInput){
+	docsAppearedIn = idInput;
 }
 int tf_idf::GetDocsAppearedIn(){
 	return docsAppearedIn;

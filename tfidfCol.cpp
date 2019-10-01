@@ -49,7 +49,7 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 			counter = 1;
 			tfidfObject.SetName(AllWords[i]);		// sets the name of the word
 			tfidfObject.SetTF(counter);				// sets the TF
-			tfidfObject.SetDocsAppearedIn();		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
+			tfidfObject.SetDocsAppearedIn(1);		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
 			tfidfVec.push_back(tfidfObject);		// copies to the tfidf vector
 		}
 		else 
@@ -61,7 +61,7 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 					counter = 1;
 					canSet = 0;								// duplicate words do not get added to the vector
 					tfidfVec[j].SetTF(counter);				// increases TF for the re-used words
-					
+					tfidfVec[j].SetDocsAppearedIn(++counter);
 					//TODO: add to docsAppearedIn - check for multiple IDs
 				}
 			}
@@ -71,7 +71,7 @@ void tf_idfCol::FindTF(){		// gets the term frequency for every word
 				counter = 0;
 				tfidfObject.SetName(AllWords[i]);		// sets the name of the word
 				tfidfObject.SetTF(counter);				// sets the TF for the word
-				tfidfObject.SetDocsAppearedIn();		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
+				tfidfObject.SetDocsAppearedIn(1);		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
 				tfidfVec.push_back(tfidfObject);		// copies to the tfidf vector
 			}
 		}
@@ -89,8 +89,7 @@ void tf_idfCol::FindIDF(){
 	
 	for(int i = 0; i < size; i++)
 	{
-		cout << tfidfVec[i].GetDocsAppearedIn() << endl;
-		tempIDF = log(size / tfidfVec[i].GetDocsAppearedIn());
+		tempIDF = log(3 / tfidfVec[i].GetDocsAppearedIn());
 		tfidfVec[i].SetIDF(tempIDF);
 	}
 }
