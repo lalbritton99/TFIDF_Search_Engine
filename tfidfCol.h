@@ -19,7 +19,7 @@ class tf_idfCol {
 		double squareProduct(tf_idfCol secondSet);				// Returns the product of the square roots of the sums of the squares of the TFIDF values of this set and another passed in. denomonator of cosine similarity equation
 
 		int getTFIDFVecSize();							// returns size of TFIDF vector
-		tf_idf getTFIDF(int index);						// returns TFIDF at given index in TFIDF vector
+		tf_idf getTFIDFObj(int index);						// returns TFIDF at given index in TFIDF vector
 	
 };
 

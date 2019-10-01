@@ -136,7 +136,8 @@ int tf_idfCol::getTFIDFVecSize(){	// returns size of TFIDF vector
 	return tfidfVec.size();
 }
 
-tf_idf tf_idfCol::getTFIDF(int index){	// returns TFIDF at given index in TFIDF vector
+
+tf_idf tf_idfCol::getTFIDFObj(int index){	// returns TFIDF at given index in TFIDF vector
 	return tfidfVec[index];
 }
 
