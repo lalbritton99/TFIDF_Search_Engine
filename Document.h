@@ -13,10 +13,10 @@ class Document
 	public:
 		Document();
 
-		void SetID(string ID);
-		void SetTitle(string title);
-		void SetAuthor(string author);
-		void SetContent(vector<string> content);
+		void SetID(string set_ID);
+		void SetTitle(string set_title);
+		void SetAuthor(string set_author);
+		void SetContent(vector<string> set_content);
 
 		string GetID();
 		string GetTitle();

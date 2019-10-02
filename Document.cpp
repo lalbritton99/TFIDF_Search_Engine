@@ -31,19 +31,19 @@ void Document::SetContent(vector<string> set_content)
 }
 
 // get values from class
-string GetID()
+string Document::GetID()
 {
 	return ID;
 }
-string GetTitle()
+string Document::GetTitle()
 {
 	return title;
 }
-string GetAuthor()
+string Document::GetAuthor()
 {
 	return author;
 }
-vector<string> GetContent()
+vector<string> Document::GetContent()
 {
 	return content;
 }

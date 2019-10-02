@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 #include <regex>
-//#include "Document.h" // this function will read a file into instance of document class
+#include "Document.h" // this function will read a file into instance of document class
 using namespace std;
 
-void fileOpener(string file_type);
+vector<Document> fileOpener();
 
 //	file_type
 //	options for this parameter include:
