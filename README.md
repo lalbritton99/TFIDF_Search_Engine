@@ -6,7 +6,7 @@ Group members:
 *	Logan
 
 Progress:
-*	Marcus - COMPLETE, awaiting feedback
+*	Marcus - COMPLETE, tested on Terminal and CSE machine Linux, awaiting feedback
 *	Jeremy -
 *	Austin -
 *	Logan -
