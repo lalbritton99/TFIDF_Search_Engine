@@ -2,7 +2,7 @@
 
 
 #include "fileOpener.h"
-// #include "document.h" // fixme - add the document header when it's ready
+// #include "Document.h" // fixme - add the document header when it's ready
 using namespace std;
 
 // IMPORTANT NOTE: we will split the documents file up into a vector of separate documents
