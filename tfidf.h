@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 
 class tf_idf {

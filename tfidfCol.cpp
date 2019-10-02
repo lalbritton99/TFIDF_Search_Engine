@@ -1,10 +1,4 @@
 #include "tfidfCol.h"
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <iomanip>
-#include <cmath>
 
 tf_idfCol::tf_idfCol(){									// constructer
 	firstDocID = 0;
@@ -22,10 +16,6 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 	int counter = 0;			// used to keep track of if the word has been used before or not, increments the TF by either 0, or 1
 	tf_idf tfidfObject; 		// object for the tf_idf class
 	bool canSet = 1;			// turns false when a duplicate is found, not allowing it to be added to the vector
-	int docCounter = 0;			// counts the number of docs get entered into this function 
-	
-	int tempID = 1;				// TEMPORARY
-	docCounter++;
 	
 	// Checking every word, copying it into new vector, and increasing term frequency when neccessary
 	for(unsigned int i = 0; i < AllWords.size(); i++) 
@@ -71,7 +61,7 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 	
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindIDF(){ // FIXME 
+void tf_idfCol::FindIDF(){ // FIXME -- Pass in the Document_Vec and then use the size of it to replace the '1'
 	
 	unsigned int size = tfidfVec.size();	// sets the size of the TFIDF vector
 	double tempIDF;							// temporary IDF variable
@@ -99,6 +89,8 @@ void tf_idfCol::FindTFIDF(){
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::FindQueryTF(const vector<string> &AllWords){		// gets the term frequency for every word
+
+// FIXME check if the words in the query are in any of the documents, if so, then increase TF
 	
 	int counter = 0;			// used to keep track of if the word has been used before or not, increments the TF by either 0, or 1
 	tf_idf tfidfObject; 		// object for the tf_idf class
