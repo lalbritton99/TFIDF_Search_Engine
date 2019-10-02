@@ -5,11 +5,12 @@
 using namespace std;
 
 #include "tfidfCol.h"
-//#include "document.h"
-//#include "documentCol.h"
+#include "fileOpener.h"
+#include "stopwordOpener.h"
 
 int main() {
-	
+// fixme - testing parts 1 and 2
+/*	
 	tf_idfCol tfidfClass;	// instance of the tfidf collection class
 	
 //- LINES 15 - 34 ARE TEMPORARY. Using them for testing. Can be commented out if you need. -Austin ------------------------------
@@ -32,12 +33,57 @@ int main() {
 	tfidfClass.FindTFIDF();			// TEMPORARY FOR TESTING
 	tfidfClass.Print();				// TEMPORARY FOR TESTING
 //-------------------------------------------------------------------------------------------------------------------------------
+*/
+	// * MARCUS'S FEATURES *
+	// runs the stopwords and documents file functions
+	vector<string> stopwords_vec = stopwordOpener();
+	vector<Document> Documents_vec = fileOpener(stopwords_vec);
 
-	string documentsFile = "";
-	string stopwordsFile = "";
-	ifstream documents;
-	ifstream stopwords;
+	// outputs the header
+	cout << "ID:\t" << Documents_vec[0].GetID() << endl;
+	cout << "title:\t" << Documents_vec[0].GetTitle() << endl;
+	cout << "author:\t" << Documents_vec[0].GetAuthor() << endl;
+	cout << endl;
 
+	// outputs the abstract (punctuation intact)
+	cout << Documents_vec[0].GetAbstract() << endl;
+	cout << endl;
+
+	// outputs the number of stopwords
+	cout << "There are currently " << stopwords_vec.size() << " known stopwords." << endl;
+	cout << endl;
+
+	// outputs the abstract without puntuation, "'s", stopwords, ...
+	vector<string> abstract_vec = Documents_vec[0].GetContent();
+	for (int i = 0; i < abstract_vec.size(); ++i)
+		{
+			cout << abstract_vec[i] << " ";
+		}
+	cout << endl;
+	// outputs the number of unique words
+	vector<string> unique_vector;
+	for (int i = 0; i < abstract_vec.size(); ++i)
+	{
+		bool found = false;
+		for (int j = 0; j < unique_vector.size(); ++j)
+		{
+			if (abstract_vec[i] == unique_vector[j])
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+		{
+			unique_vector.push_back(abstract_vec[i]);
+		}
+	}
+	cout << "number of unique unstemmed words:\t" << unique_vector.size() << endl;
+	cout << endl << endl << endl;
+	// NOTE: Documents_vec is a vector of all documents from any given file
+	// fixme - making sure Documents_vec is fully loaded every time
+	cout << Documents_vec.size() << endl;
+	// * END MARCUS'S FEATURES *
 
 	return 0;
 }
