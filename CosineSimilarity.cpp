@@ -28,7 +28,7 @@ double tf_idfCol::squareProduct(tf_idfCol secondSet) { //declaration located in 
 	double passedSum = 0;										// sum of squared TFIDFs in passed obj
 	double squareProd = 0;										// result to be returned
 	
-	for(int x=0; x < this->getTFIDFVecSize(); x++){ 							// loop through all TFIDFs in current obj
+	for(int x=0; x < this->getTFIDFVecSize(); x++){ 						// loop through all TFIDFs in current obj
 		double tempTFIDF = (this->getTFIDFObj(x)).GetTFIDF();					// var holding TFIDF
 		thisSum += pow(tempTFIDF,2);								// adds square of TFIDF to sum
 	}
