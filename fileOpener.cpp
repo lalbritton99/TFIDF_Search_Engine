@@ -42,11 +42,6 @@ void fileOpener(string file_type)
 	// this is the Documents file
 	if (file_type == "Documents")
 	{
-		string ID = "";
-		string title = "";
-		string author = "";
-		string abstract = "";
-
 		// puts the entire file into a string
 		string file_string = "";
 		string line = "";
@@ -80,120 +75,268 @@ void fileOpener(string file_type)
 			}
 		}
 
-		// gets the ID
+		// actual vector of separate text documents
+		vector<vector<string> > documents_vector;
+		// vector of strings (all words and delimiters in document) to add to documents_vector
+		vector<string> individual_document_vector;
+
+		// puts vectors of strings into documents_vector
+		bool isNewDocument = false;
 		for (int i = 0; i < file_vector.size(); ++i)
 		{
-			if (file_vector[i].find(".I") != string::npos)
+			// if the new document has started and another ".I"
+			// (the end of the document) is found
+			if (file_vector[i] == ".I" && isNewDocument)
 			{
-				ID = file_vector[i + 1];
-				break;
+				isNewDocument = false;
+				documents_vector.push_back(individual_document_vector);
+				individual_document_vector.clear();
 			}
-		}
-		// gets the title
-		bool isTitle = false;
-		for (int i = 0; i < file_vector.size(); ++i)
-		{
-			if (file_vector[i] == ".A")
+			// picks up the first ".I"
+			if (file_vector[i] == ".I")
 			{
-				isTitle = false;
+				isNewDocument = true;
 			}
-			if (isTitle)
+			// if the new document has started
+			if (isNewDocument)
 			{
-				title = title + file_vector[i] + ' ';
+				individual_document_vector.push_back(file_vector[i]);
 			}
-			if (file_vector[i] == ".T")
+			// same if end of file_vector is reached
+			if (i == file_vector.size() - 1)
 			{
-				isTitle = true;
-			}
-		}
-		// gets the author
-		for (int i = 0; i < file_vector.size(); ++i)
-		{
-			if (file_vector[i].find(".A") != string::npos)
-			{
-				author = file_vector[i + 1];
-				break;
-			}
-		}
-		// gets the abstract
-		bool isAbstract = false;
-		for (int i = 0; i < file_vector.size(); ++i)
-		{
-			if (isAbstract)
-			{
-				abstract = abstract + file_vector[i] + ' ';
-			}
-			if (file_vector[i] == ".W")
-			{
-				isAbstract = true;
+				isNewDocument = false;
+				documents_vector.push_back(individual_document_vector);
+				individual_document_vector.clear();
 			}
 		}
 
-		// below: AFTER SPLITTING OFF TO ABSTRACT ONLY
-
-		// turns all abstract punctuation into spaces
-		replace(abstract.begin(), abstract.end(), '-', ' ');
-		replace(abstract.begin(), abstract.end(), '.', ' ');
-		replace(abstract.begin(), abstract.end(), ',', ' ');
-		replace(abstract.begin(), abstract.end(), '/', ' ');
-		replace(abstract.begin(), abstract.end(), '(', ' ');
-		replace(abstract.begin(), abstract.end(), ')', ' ');
-		replace(abstract.begin(), abstract.end(), '[', ' ');
-		replace(abstract.begin(), abstract.end(), ']', ' ');
-		replace(abstract.begin(), abstract.end(), '{', ' ');
-		replace(abstract.begin(), abstract.end(), '}', ' ');
-		replace(abstract.begin(), abstract.end(), '"', ' ');
-		replace(abstract.begin(), abstract.end(), '\'', ' ');
-		replace(abstract.begin(), abstract.end(), '|', ' ');
-		replace(abstract.begin(), abstract.end(), '\\', ' ');
-		replace(abstract.begin(), abstract.end(), '_', ' ');
-		replace(abstract.begin(), abstract.end(), '!', ' ');
-		replace(abstract.begin(), abstract.end(), '?', ' ');
-		replace(abstract.begin(), abstract.end(), '@', ' ');
-		replace(abstract.begin(), abstract.end(), '#', ' ');
-		replace(abstract.begin(), abstract.end(), '$', ' ');
-		replace(abstract.begin(), abstract.end(), '%', ' ');
-		replace(abstract.begin(), abstract.end(), '^', ' ');
-		replace(abstract.begin(), abstract.end(), '&', ' ');
-		replace(abstract.begin(), abstract.end(), '*', ' ');
-		replace(abstract.begin(), abstract.end(), '+', ' ');
-		replace(abstract.begin(), abstract.end(), '+', ' ');
-		replace(abstract.begin(), abstract.end(), ':', ' ');
-		replace(abstract.begin(), abstract.end(), ';', ' ');
-		replace(abstract.begin(), abstract.end(), '`', ' ');
-		replace(abstract.begin(), abstract.end(), '~', ' ');
-
-		// puts abstract back into a vector
-		vector<string> abstract_vector;
-		stringstream abstract_stringstream(abstract);
-		string tempWord = "";
-		while (getline(abstract_stringstream, tempWord, ' '))
+		/*// fixme
+		for (int i = 0; i < documents_vector.size(); ++i)
 		{
-			abstract_vector.push_back(tempWord);
-		}
-		// fixme
-		cout << abstract_vector.size() << endl;
-		// gets rid of empty spaces in abstract vector
-		for (int i = 0; i < abstract_vector.size(); ++i)
-		{
-			if (abstract_vector[i] == "")
+			for (int j = 0; j < documents_vector[i].size(); ++j)
 			{
-				abstract_vector.erase(abstract_vector.begin() + i);
-				i--;
+				cout << documents_vector[i][j] << "\t";
 			}
-		}
-		// fixme
-		cout << abstract_vector.size() << endl;
+			cout << endl;
+		}*/
 
-		// fixme
-		for (int i = 0; i < file_vector.size(); ++i)
+		// the actual parsing loop (works through each item of documents_vector)
+		// vector<Document> Documents;
+		for (int j = 0; j < documents_vector.size(); ++j) // change to "documents_vector.size()"
 		{
-			cout << abstract_vector[i] << endl;
+			// Document instantiatedDocument;
+			string ID = "";
+			string title = "";
+			string author = "";
+			string abstract = "";
+
+			// fixme
+
+			// fixme - change "file_vector" to vector of individual document vectors
+			// "documents_vector[j]", perhaps?
+
+			// FINDS ALL THE FIELDS (strings ID, title, author, abstract)
+			// gets the ID
+			for (int i = 0; i < documents_vector[j].size(); ++i)
+			{
+				if (documents_vector[j][i].find(".I") != string::npos)
+				{
+					ID = documents_vector[j][i + 1];
+					break;
+				}
+			}
+			// gets the title
+			bool isTitle = false;
+			for (int i = 0; i < documents_vector[j].size(); ++i)
+			{
+				if (documents_vector[j][i] == ".A")
+				{
+					isTitle = false;
+				}
+				if (isTitle)
+				{
+					title = title + documents_vector[j][i] + ' ';
+				}
+				if (documents_vector[j][i] == ".T")
+				{
+					isTitle = true;
+				}
+			}
+			// gets the author
+			bool isAuthor = false;
+			for (int i = 0; i < documents_vector[j].size(); ++i)
+			{
+				if (documents_vector[j][i] == ".W")
+				{
+					isAuthor = false;
+				}
+				if (isAuthor)
+				{
+					author = author + documents_vector[j][i] + ' ';
+				}
+				if (documents_vector[j][i] == ".A")
+				{
+					isAuthor = true;
+				}
+			}
+			// gets the abstract
+			bool isAbstract = false;
+			for (int i = 0; i < documents_vector[j].size(); ++i)
+			{
+				if (isAbstract)
+				{
+					abstract = abstract + documents_vector[j][i] + ' ';
+				}
+				if (documents_vector[j][i] == ".W")
+				{
+					isAbstract = true;
+				}
+			}
+
+			// TURNS ALL ABSTRACT PUNCTUATION INTO SPACES
+			replace(abstract.begin(), abstract.end(), '-', ' ');
+			replace(abstract.begin(), abstract.end(), '.', ' ');
+			replace(abstract.begin(), abstract.end(), ',', ' ');
+			replace(abstract.begin(), abstract.end(), '/', ' ');
+			replace(abstract.begin(), abstract.end(), '(', ' ');
+			replace(abstract.begin(), abstract.end(), ')', ' ');
+			replace(abstract.begin(), abstract.end(), '[', ' ');
+			replace(abstract.begin(), abstract.end(), ']', ' ');
+			replace(abstract.begin(), abstract.end(), '{', ' ');
+			replace(abstract.begin(), abstract.end(), '}', ' ');
+			replace(abstract.begin(), abstract.end(), '"', ' ');
+			replace(abstract.begin(), abstract.end(), '\'', ' ');
+			replace(abstract.begin(), abstract.end(), '|', ' ');
+			replace(abstract.begin(), abstract.end(), '\\', ' ');
+			replace(abstract.begin(), abstract.end(), '_', ' ');
+			replace(abstract.begin(), abstract.end(), '!', ' ');
+			replace(abstract.begin(), abstract.end(), '?', ' ');
+			replace(abstract.begin(), abstract.end(), '@', ' ');
+			replace(abstract.begin(), abstract.end(), '#', ' ');
+			replace(abstract.begin(), abstract.end(), '$', ' ');
+			replace(abstract.begin(), abstract.end(), '%', ' ');
+			replace(abstract.begin(), abstract.end(), '^', ' ');
+			replace(abstract.begin(), abstract.end(), '&', ' ');
+			replace(abstract.begin(), abstract.end(), '*', ' ');
+			replace(abstract.begin(), abstract.end(), '+', ' ');
+			replace(abstract.begin(), abstract.end(), '+', ' ');
+			replace(abstract.begin(), abstract.end(), ':', ' ');
+			replace(abstract.begin(), abstract.end(), ';', ' ');
+			replace(abstract.begin(), abstract.end(), '`', ' ');
+			replace(abstract.begin(), abstract.end(), '~', ' ');
+
+			// PUTS ABSTRACT INTO VECTOR
+			vector<string> abstract_vector;
+			// preps the abstract string as a stream
+			stringstream abstract_stringstream(abstract);
+			string tempWord = "";
+			while (getline(abstract_stringstream, tempWord, ' '))
+			{
+				abstract_vector.push_back(tempWord);
+			}
+			// gets rid of empty spaces in abstract vector
+			for (int i = 0; i < abstract_vector.size(); ++i)
+			{
+				if (abstract_vector[i] == "")
+				{
+					abstract_vector.erase(abstract_vector.begin() + i);
+					i--;
+				}
+			}
+
+			// REMOVE TITLE FROM ABSTRACT
+			vector<string> title_vector;
+			// clears punctuation from title
+			string tempTitle = title;
+			replace(tempTitle.begin(), tempTitle.end(), '-', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '.', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), ',', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '/', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '(', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), ')', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '[', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), ']', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '{', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '}', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '"', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '\'', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '|', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '\\', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '_', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '!', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '?', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '@', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '#', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '$', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '%', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '^', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '&', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '*', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '+', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '+', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), ':', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), ';', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '`', ' ');
+			replace(tempTitle.begin(), tempTitle.end(), '~', ' ');
+			// the string is prepared to read into getline() as a stream
+			stringstream tempTitle_stringstream(tempTitle);
+			tempWord = "";
+			while (getline(tempTitle_stringstream, tempWord, ' '))
+			{
+				title_vector.push_back(tempWord);
+			}
+			// gets rid of empty spaces in title vector
+			for (int i = 0; i < title_vector.size(); ++i)
+			{
+				if (title_vector[i] == "")
+				{
+					title_vector.erase(title_vector.begin() + i);
+					i--;
+				}
+			}
+			// actually removes title elements from abstract_vector
+			for (int i = 0; i < title_vector.size(); ++i)
+			{
+				if (abstract_vector[i] == title_vector[i])
+				{
+					abstract_vector.erase(abstract_vector.begin() + i);
+					title_vector.erase(title_vector.begin() + i);
+					i--;
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			// fixme
+			for (int i = 0; i < abstract_vector.size(); ++i)
+			{
+				cout << abstract_vector[i] << endl;
+			}
+			cout << ID << endl;
+			cout << title << endl;
+			cout << author << endl;
+			cout << endl;
+
+			// fixme - ADD THE FIELDS TO A VECTOR WITH THE FIELDS STORED PROPERLY
+			// IN A VECTOR OF THE Document CLASS (int, string, string, vector<string>)
+			// "Documents.push_back(<THE INSTANCE OF Document CLASS>);"
 		}
-		cout << ID << endl;
-		cout << title << endl;
-		cout << author << endl;
+
+		//return a vector of documents (even if just one)
+	}
+	if (file_type == "Stopwords")
+	{
+		/* code */
+
+		// return a vector of strings, which are the stopwords
+	}
+	else
+	{
+		return;
 	}
 
-	// return a vector of documents (even if just one)
+	file.close();
 }
