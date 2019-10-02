@@ -6,7 +6,6 @@ tf_idf::tf_idf(){										// constructor
 	tf = 0;									
 	idf = 0;								
 	tfidf = 0;	
-	docsAppearedIn = 0;
 }
 
 void tf_idf::SetID(int idInput){						// mutator for id
@@ -45,10 +44,10 @@ double tf_idf::GetTFIDF(){								// accessor for tfidf
 }
 
 void tf_idf::SetDocsAppearedIn(int idInput){
-	docsAppearedIn = idInput;
+	docsAppearedIn.push_back(idInput);
 }
 int tf_idf::GetDocsAppearedIn(){
-	return docsAppearedIn;
+	return docsAppearedIn.size();
 }
 
 bool operator < (const tf_idf &t1, const tf_idf &t2)	// used to sort the tfidf vector alphabetically

@@ -7,12 +7,12 @@ using namespace std;
 
 class tf_idf {
 	private:
-		int     id;									// unique id number for every word
-		string  name;								// the exact name of the unique word
-		int     tf;									// the term frequency for a given unique word (a running count)
-		double  idf;								// the inverse document frequency for a given unique word
-		double  tfidf;								// the term freq. multiplied by the inverse doc. freq.
-		int 	docsAppearedIn;						// dynamic list of all the document IDs a given word appears in
+		int     	id;									// unique id number for every word
+		string  	name;								// the exact name of the unique word
+		int     	tf;									// the term frequency for a given unique word (a running count)
+		double  	idf;								// the inverse document frequency for a given unique word
+		double  	tfidf;								// the term freq. multiplied by the inverse doc. freq.
+		vector<int> docsAppearedIn;						// dynamic list of all the document IDs a given word appears in
 		
 	public:
 		tf_idf();										// constructor
