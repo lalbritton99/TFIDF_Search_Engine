@@ -5,7 +5,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "Document.h"
 using namespace std;
 
-vector<Document> fileOpener(vector<string> stopwords);
+vector<string> stopwordOpener();

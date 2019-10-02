@@ -1,15 +1,10 @@
 // Author: Marcus Summers
 
-
-
 #include "fileOpener.h"
+#include "stopwordOpener.h"
 using namespace std;
 
-// IMPORTANT NOTE: we will split the documents file up into a vector of separate documents
-// and use a loop to iterate through it IN THE MAIN. This results in a vast simplification
-// of the required features of this function.
-
-vector<Document> fileOpener()
+vector<Document> fileOpener(vector<string> stopwords)
 {
 	// the file we are opening
 	ifstream file;
@@ -174,8 +169,15 @@ vector<Document> fileOpener()
 			}
 		}
 
+		// special string that is just original abstract without newlines
+		// preserved for output
+		string origAbstract = abstract;
+		// remove title from origAbstract
+		size_t title_length = title.length();
+		origAbstract = origAbstract.erase(0, title_length);
+
 		// TURNS ALL ABSTRACT PUNCTUATION INTO SPACES
-		replace(abstract.begin(), abstract.end(), '-', ' ');
+		//replace(abstract.begin(), abstract.end(), '-', ' ');		// keeps hyphens
 		replace(abstract.begin(), abstract.end(), '.', ' ');
 		replace(abstract.begin(), abstract.end(), ',', ' ');
 		replace(abstract.begin(), abstract.end(), '/', ' ');
@@ -186,7 +188,7 @@ vector<Document> fileOpener()
 		replace(abstract.begin(), abstract.end(), '{', ' ');
 		replace(abstract.begin(), abstract.end(), '}', ' ');
 		replace(abstract.begin(), abstract.end(), '"', ' ');
-		replace(abstract.begin(), abstract.end(), '\'', ' ');
+		//replace(abstract.begin(), abstract.end(), '\'', ' ');		// keeps for stopwords
 		replace(abstract.begin(), abstract.end(), '|', ' ');
 		replace(abstract.begin(), abstract.end(), '\\', ' ');
 		replace(abstract.begin(), abstract.end(), '_', ' ');
@@ -199,7 +201,7 @@ vector<Document> fileOpener()
 		replace(abstract.begin(), abstract.end(), '^', ' ');
 		replace(abstract.begin(), abstract.end(), '&', ' ');
 		replace(abstract.begin(), abstract.end(), '*', ' ');
-		replace(abstract.begin(), abstract.end(), '+', ' ');
+		replace(abstract.begin(), abstract.end(), '=', ' ');
 		replace(abstract.begin(), abstract.end(), '+', ' ');
 		replace(abstract.begin(), abstract.end(), ':', ' ');
 		replace(abstract.begin(), abstract.end(), ';', ' ');
@@ -229,7 +231,7 @@ vector<Document> fileOpener()
 		vector<string> title_vector;
 		// clears punctuation from title
 		string tempTitle = title;
-		replace(tempTitle.begin(), tempTitle.end(), '-', ' ');
+		//replace(tempTitle.begin(), tempTitle.end(), '-', ' ');	// keeps hyphens
 		replace(tempTitle.begin(), tempTitle.end(), '.', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), ',', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '/', ' ');
@@ -240,7 +242,7 @@ vector<Document> fileOpener()
 		replace(tempTitle.begin(), tempTitle.end(), '{', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '}', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '"', ' ');
-		replace(tempTitle.begin(), tempTitle.end(), '\'', ' ');
+		//replace(tempTitle.begin(), tempTitle.end(), '\'', ' ');	// keeps for stopwords
 		replace(tempTitle.begin(), tempTitle.end(), '|', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '\\', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '_', ' ');
@@ -253,7 +255,7 @@ vector<Document> fileOpener()
 		replace(tempTitle.begin(), tempTitle.end(), '^', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '&', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '*', ' ');
-		replace(tempTitle.begin(), tempTitle.end(), '+', ' ');
+		replace(tempTitle.begin(), tempTitle.end(), '=', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), '+', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), ':', ' ');
 		replace(tempTitle.begin(), tempTitle.end(), ';', ' ');
@@ -290,18 +292,43 @@ vector<Document> fileOpener()
 			}
 		}
 
+		// REMOVE STOPWORDS FROM ABSTRACT
+		for (int i = 0; i < stopwords.size(); ++i)
+		{
+			for (int j = 0; j < abstract_vector.size(); ++j)
+			{
+				// if the abstract at this position is a stopword
+				if (abstract_vector[j] == stopwords[i])
+				{
+					abstract_vector.erase(abstract_vector.begin() + j);
+					j--;
+				}
+			}
+		}
+
+		// REMOVE "'s" FROM ABSTRACT
+		for (int i = 0; i < abstract_vector.size(); ++i)
+		{
+			int abstractWordEnd = abstract_vector[i].length() - 1;
+			if (abstract_vector[i][abstractWordEnd] == 's' && abstract_vector[i][abstractWordEnd - 1] == '\'')
+			{
+				abstract_vector[i].erase(abstractWordEnd - 1, abstractWordEnd + 1);
+			}
+		}
+
 		// sets the fields in Document class and pushes back on Documents vector
 		Document tempDocument;
 		tempDocument.SetID(ID);
 		tempDocument.SetTitle(title);
 		tempDocument.SetAuthor(author);
+		tempDocument.SetAbstract(origAbstract);
 		tempDocument.SetContent(abstract_vector);
 		Documents.push_back(tempDocument);
 	}
 
-	// returns vector of Document class instances
-	return Documents;
-
 	// closes the file
 	file.close();
+
+	// returns vector of Document class instances
+	return Documents;
 }

@@ -9,6 +9,7 @@ Document::Document()
 	ID = "0";
 	title = "";
 	author = "";
+	abstract = "";
 	content.clear();
 }
 
@@ -24,6 +25,10 @@ void Document::SetTitle(string set_title)
 void Document::SetAuthor(string set_author)
 {
 	author = set_author;
+}
+void Document::SetAbstract(string set_abstract)
+{
+	abstract = set_abstract;
 }
 void Document::SetContent(vector<string> set_content)
 {
@@ -42,6 +47,10 @@ string Document::GetTitle()
 string Document::GetAuthor()
 {
 	return author;
+}
+string Document::GetAbstract()
+{
+	return abstract;
 }
 vector<string> Document::GetContent()
 {
