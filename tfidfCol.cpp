@@ -94,58 +94,43 @@ void tf_idfCol::FindTFIDF(){
 	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindQueryTF(const vector<string> &AllWords){		// gets the term frequency for every word
+void tf_idfCol::FindQueryTF(const vector<string> &AllWords){		// gets the term frequency for every word in the query
 
-// FIXME check if the words in the query are in any of the documents, if so, then increase TF
-	
-	int counter = 0;			// used to keep track of if the word has been used before or not, increments the TF by either 0, or 1
 	tf_idf tfidfObject; 		// object for the tf_idf class
-	bool canSet = 1;			// turns false when a duplicate is found, not allowing it to be added to the vector
+	int count = 0;
 	
-	// Checking every word, copying it into new vector, and increasing term frequency when neccessary
+	// Checking every word, copying it into new query vector, and setting term frequency
 	for(unsigned int i = 0; i < AllWords.size(); i++) 
 	{
-		counter = 0;		// increments TF by 0
-		canSet = 1;			// words can be added to tfidf vector
-		
-		if(i==0)			// Takes care of very first word
+		for (unsigned int j = 0; j < tfidfVec.size(); j++)
 		{
-			counter = 1;
-			tfidfObject.SetName(AllWords[i]);		// sets the name of the word
-			tfidfObject.SetTF(counter);				// sets the TF
-			tfidfVecQuery.push_back(tfidfObject);	// copies to the tfidf Query vector
-		}
-		else 
-		{	
-			for (unsigned int j = 0; j < tfidfVecQuery.size(); j++)
+			count = 0;
+			if(tfidfVec[j].GetName() == AllWords[i])	// checks if the word has already been added to the tfidf vector
 			{
-				if(tfidfVecQuery[j].GetName() == AllWords[i])	// checks if the word has already been added to the tfidf vector
-				{
-					counter = 1;
-					canSet = 0;								// duplicate words do not get added to the vector
-					tfidfVec[j].SetTF(counter);				// increases TF for the re-used words
-				}
+				tfidfObject.SetName(AllWords[i]);
+				tfidfObject.SetTF(tfidfVec[j].GetTF());
+				// counter???????
+				tfidfVecQuery.push_back(tfidfObject);
+				
 			}
-			
-			if(canSet)		// only allows non-duplicate words to be added to vector
+			else
 			{
-				counter = 0;
-				tfidfObject.SetName(AllWords[i]);		// sets the name of the word
-				tfidfObject.SetTF(counter);				// sets the TF for the word
-				tfidfVecQuery.push_back(tfidfObject);		// copies to the tfidf vector
+				tfidfObject.SetName(AllWords[i]);
+				tfidfObject.SetTF(0);
+				tfidfVecQuery.push_back(tfidfObject);
 			}
 		}
 	} 
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindQueryIDF(){ // FIXME 
+void tf_idfCol::FindQueryIDF(unsigned int N){ // FIXME 
 	
 	unsigned int size = tfidfVecQuery.size();	// sets the size of the TFIDF vector
 	double tempIDF;								// temporary IDF variable
 	
 	for(int i = 0; i < size; i++)
 	{
-		tempIDF = log(1 / tfidfVecQuery[i].GetTF());
+		tempIDF = log(N / tfidfVecQuery[i].GetTF());
 		tfidfVecQuery[i].SetIDF(tempIDF);
 	}
 }

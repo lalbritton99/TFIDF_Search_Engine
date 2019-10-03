@@ -11,6 +11,7 @@ using namespace std;
 int main() {
 	
 	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
+	vector<tf_idfCol> tfidfQueryVec;		// vector for all tfidfs for every query word
 	tf_idfCol tfidfClass;
 // fixme - testing parts 1 and 2
 
@@ -18,14 +19,13 @@ int main() {
 	vector<string> stopwords_vec = stopwordOpener();
 	vector<Document> Documents_vec = fileOpener(stopwords_vec);
 
+
 // !!!!!!! JEREMY RUN PORTER STEMMER HERE !!!!!!!
 
-	// calls all functions for the TFIDF calculations
 	
-//	loop through document class, for each doc, pass in the porter-stemmed abstract, add tfidfClass to tfidfColVec
-
-	unsigned int docSize = Documents_vec.size();
+	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
 	
+	// calls all functions for the TFIDF calculations for the documents
 	for (unsigned int i = 0; i < docSize; i++)
 	{
 		tfidfClass.FindTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed vector instead
@@ -35,9 +35,19 @@ int main() {
 		
 		tfidfColVec.push_back(tfidfClass);
 	}
-			
-
-// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
+	
+	// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
+	
+	// calls the tfidf functions for the QUERY
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed QUERY vector instead
+		tfidfClass.FindQueryIDF(docSize);			
+		tfidfClass.FindQueryTFIDF();
+		tfidfClass.SetDocID(Documents_vec[i].GetID());
+		
+		tfidfQueryVec.push_back(tfidfClass);
+	}
 
 
 	// outputs the header
