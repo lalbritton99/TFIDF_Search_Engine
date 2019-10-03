@@ -94,19 +94,28 @@ int main() {
 	
 // !!!!!!! LOGAN RUN COSINE STUFF AND SORT VEC HERE !!!!!!!
 
-cout << endl << "The top most similar documents are:" << endl;
+//---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
 
-if(tfidfColVec.size() >= 5){
-	for(int x=0; x<5; x++){
-		tfidfColVec[x].printCSInfo();
+	cout << endl << "The top most similar documents are:" << endl;
+
+	if(tfidfColVec.size() >= 5){						// for first 5 docs after the sort
+		for(int x=0; x<5; x++){
+			if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
+				tfidfColVec[x].printCSInfo();			// print info
+			}
+		}
 	}
-}
-else{
-	for(int x=0; x<tfidfColVec.size(); x++){
-                tfidfColVec[x].printCSInfo();
-        }
-}
-// !!!!! LOGAN PRINT COSINE STUFF HERE !!!!!!!
+	else{
+		for(int x=0; x<tfidfColVec.size(); x++){			// if less than 5 docs, look at whole vector 
+        	        if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
+                                tfidfColVec[x].printCSInfo();			// print info 
+                        }
+       		}
+	}
+
+	cout << endl << "Complete!" << endl << endl;
+
+
 
 	return 0;
 }
