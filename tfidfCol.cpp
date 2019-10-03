@@ -2,6 +2,7 @@
 
 tf_idfCol::tf_idfCol(){								// constructer
 	docID = "none";
+	cosSimilarity = 0;
 }
 
 void tf_idfCol::SetDocID(string docIdInput){		// mutator for docID
@@ -10,6 +11,15 @@ void tf_idfCol::SetDocID(string docIdInput){		// mutator for docID
 string tf_idfCol::GetDocID(){						// accessor for docID
 		return docID;
 }
+
+void tf_idfCol::SetCosineSimilarity(double cosSim){                                // mutator for Cosine Similarity
+	cosSimilarity = cosSim;
+}
+
+double tf_idfCol::GetCosineSimilarity(){						// accessor for Cosine Similarity
+	return cosSimilarity;
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term frequency for every word
 	
