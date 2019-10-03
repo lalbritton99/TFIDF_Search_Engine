@@ -43,13 +43,6 @@ double tf_idf::GetTFIDF(){								// accessor for tfidf
 	return tfidf;
 }
 
-void tf_idf::SetDocsAppearedIn(int idInput){
-	docsAppearedIn.push_back(idInput);
-}
-int tf_idf::GetDocsAppearedIn(){
-	return docsAppearedIn.size();
-}
-
 bool operator < (const tf_idf &t1, const tf_idf &t2)	// used to sort the tfidf vector alphabetically
 {
     return t1.GetName() < t2.GetName();

@@ -4,15 +4,15 @@ class tf_idfCol {
 	private:
 		vector<tf_idf>tfidfVec;			// collection of tf_idf objects
 		vector<tf_idf>tfidfVecQuery;	// collection of tf_idf objects for the QUERY
-		int firstDocID;					// the id number of the first document that gets read in // maybe dont need???
+		string docID;						// the id number of the first document that gets read in
 	
 	public:
 		tf_idfCol();								// constructor
-		void SetFirstDocID(int firstDocIdInput);	// mutator for firstDocId
-		int GetFirstDocID();						// accessor for firstDocID
+		void SetDocID(string docIdInput);				// mutator for docID
+		string GetDocID();								// accessor for docID
 	
 		void FindTF(const vector<string> &AllWords);	// function to find the tf for every word
-		void FindIDF();									// function to find the idf for every word
+		void FindIDF(unsigned int N);					// function to find the idf for every word
 		void FindTFIDF();								// function to find the tf-idf for every word
 		
 		void FindQueryTF(const vector<string> &AllWords);	// function to find the tf for every word in the query
