@@ -103,7 +103,7 @@ int main() {
 
 //--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------
 
-	
+	sort(tfidfColVec.begin(), tfidfColVec.end());				// sorts TFIDF colection vector by cosine similarity
 
 //---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
 
