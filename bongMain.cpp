@@ -102,7 +102,18 @@ int main() {
 
 
 	
-// !!!!!!! LOGAN RUN COSINE STUFF AND SORT VEC HERE !!!!!!!
+//------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
+
+	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
+		double tempCosSim = 0;
+		//tempCosSim = [QUERY_TFIDFCOL_OBJECT[x?]].cosineSimilarity(tfidfColVec[x]);	//FIXME
+		//                    		   ???^^???  ?obj or vec?
+		tfidfColVec[x].SetCosineSimilarity(tempCosSim);
+	}
+
+//--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------
+
+	
 
 //---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
 
