@@ -39,7 +39,6 @@ int main() {
 
 // !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
 
-// !!!!!!! LOGAN RUN COSINE STUFF HERE !!!!!!!
 
 	// outputs the header
 	cout << "ID:\t" << Documents_vec[0].GetID() << endl;
@@ -90,7 +89,23 @@ int main() {
 	
 	// prints tfidf information for first doc
 	tfidfColVec[0].Print();
+
+
 	
+// !!!!!!! LOGAN RUN COSINE STUFF AND SORT VEC HERE !!!!!!!
+
+cout << endl << "The top most similar documents are:" << endl;
+
+if(tfidfColVec.size() >= 5){
+	for(int x=0; x<5; x++){
+		tfidfColVec[x].printCSInfo();
+	}
+}
+else{
+	for(int x=0; x<tfidfColVec.size(); x++){
+                tfidfColVec[x].printCSInfo();
+        }
+}
 // !!!!! LOGAN PRINT COSINE STUFF HERE !!!!!!!
 
 	return 0;
