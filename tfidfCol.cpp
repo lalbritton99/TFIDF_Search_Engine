@@ -187,11 +187,14 @@ void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first d
 	
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------
+void tf_idfCol::printCSInfo(){			// prints final output. doc similarity info after sort
+        cout << "\t" << docID << "\t" << setprecision(5) << fixed << cosSimilarity << endl;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 int tf_idfCol::getTFIDFVecSize(){	// returns size of TFIDF vector
 	return tfidfVec.size();
 }
-
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 tf_idf tf_idfCol::getTFIDFObj(int index){	// returns TFIDF at given index in TFIDF vector
 	return tfidfVec[index];
 }
