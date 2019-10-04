@@ -46,7 +46,7 @@ string portStem(string word){
 		else if((word.size() > 2 && word.at(word.size()-2) == word.at(word.size()-1)) && (word.at(word.size()-2) != 's') && (word.at(word.size()-2) != 'l') && (word.at(word.size()-2) != 'z')){
 			word = word.substr(0, word.size() -1);
 		}
-		else if(word.size() > 3 && (!(isVowel(word.at(word.size()-3)))) && (isVowel(word.at(word.size()-2))) && (!(isVowel(word.at(word.size()-1)))) && (((word.at(word.size()-1) != 'w') && (word.at(word.size()-1) != 'x') && (word.at(word.size()-1) != 'y')))){
+		else if(word.size() >= 3 && (!(isVowel(word.at(word.size()-3)))) && (isVowel(word.at(word.size()-2))) && (!(isVowel(word.at(word.size()-1)))) && (((word.at(word.size()-1) != 'w') && (word.at(word.size()-1) != 'x') && (word.at(word.size()-1) != 'y')))){
 		
 			m = getM(word);
 			if(m == 1){
@@ -123,7 +123,6 @@ string portStem(string word){
         }
 
 	//Step 3
-	cout << "STEP 3" << endl;
 	if(word.size() > 5 && getM(word.substr(0, word.size()-5)) > 0 && word.find("icate", word.size()-5) != -1){
 		word.replace(word.find("icate"), 5, "ic");
 	}
@@ -207,7 +206,6 @@ string portStem(string word){
 
 	//Step 5a
 	if(word.size() > 1 && getM(word.substr(0, word.size()-1)) > 1 && word.at(word.size()-1) == 'e'){
-		cout << getM(word.substr(0, word.size()-1)) << endl;
 		word.replace(word.rfind("e"), 1, "");
 	}
 	else if(word.size() > 3 && getM(word) == 1 && !((!(isVowel(word.at(word.size()-4)))) && (isVowel(word.at(word.size()-3))) && (!(isVowel(word.at(word.size()-2)))) && (((word.at(word.size()-2) != 'w') && (word.at(word.size()-2) != 'x') && (word.at(word.size()-2) != 'y'))))  && word.at(word.size()-1) == 'e'){
