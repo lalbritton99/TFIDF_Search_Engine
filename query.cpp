@@ -31,6 +31,13 @@ vector<string> query(vector<string> stops){
 			stoppedQuery.push_back(*itr);
 		}
 	}
+	for(int i = 0; i < stoppedQuery.size(); i++){
+		for(int j = 0; j < stoppedQuery[i].size(); j++){
+			if((ispunct(stoppedQuery[i].at(j))) && (stoppedQuery[i].at(j) != '-')){
+				stoppedQuery[i].replace(stoppedQuery[i].size()-1, 1, "");
+			}
+		}
+	}
 	return stoppedQuery;
 }
 
