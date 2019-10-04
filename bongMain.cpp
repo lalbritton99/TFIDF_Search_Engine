@@ -114,10 +114,9 @@ int main() {
 		stemmingVector = Documents_vec[i].GetContent();
 		for(int j = 0; j < stemmingVector.size(); j++) {
         	        tempVector.push_back(portStem(stemmingVector[j]));
-			cout << tempVector[j] << " ";
         	}
 		Documents_vec[i].SetContent(tempVector);
-		cout << endl << endl << endl;
+		cout << endl;
 	}
 
 	
