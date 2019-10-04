@@ -292,6 +292,16 @@ vector<Document> fileOpener(vector<string> stopwords)
 			}
 		}
 
+		// remove numbers from abstract
+		for (int i = 0; i < abstract_vector.size(); ++i)
+		{
+			if (isdigit(abstract_vector[i][0]) | isdigit(abstract_vector[i][abstract_vector[i].length() - 1]))
+			{
+				abstract_vector.erase(abstract_vector.begin() + i);
+				i--;
+			}
+		}
+
 		// REMOVE STOPWORDS FROM ABSTRACT
 		for (int i = 0; i < stopwords.size(); ++i)
 		{
