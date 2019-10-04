@@ -1,10 +1,13 @@
 #include "query.h"
 
-void query(){
+vector<string> query(vector<string> stops){
         string query, tempQuery;
 	int temp = 0;
+	bool stopped = true;
 	vector<string> queryVec;
+	vector<string> stoppedQuery;
         cout << "Enter your query: ";
+	cin.ignore();
         getline(cin, query);
 	
 	istringstream querie(query);
@@ -13,9 +16,21 @@ void query(){
 		queryVec.push_back(tempQuery);
 	}
 
-
-	for(int i = 0; i < queryVec.size(); i++){
-		cout << queryVec[i] << endl;
+	vector<string>::iterator itr;
+	for(itr = queryVec.begin(); itr < queryVec.end(); itr++){
+		for(int j = 0; j < stops.size(); j++){
+			if(*itr == stops[j]){
+				stopped = true;
+				break;
+			}
+			else {
+				stopped = false;
+			}
+		}
+		if (!stopped){
+			stoppedQuery.push_back(*itr);
+		}
 	}
+	return stoppedQuery;
 }
 

@@ -21,9 +21,20 @@ int main() {
 	vector<string> stopwords_vec = stopwordOpener();
 	vector<Document> Documents_vec = fileOpener(stopwords_vec);
 
-	query();
+//------------------------------------------------------------ Query -------------------------------------------------------------
 
-	
+	vector<string> stoppedQuery;
+	vector<string> finalQuery;
+
+        stoppedQuery = query(stopwords_vec);
+
+	for(int i = 0; i < stoppedQuery.size(); i++){
+		finalQuery.push_back(portStem(stoppedQuery[i]));
+	}
+
+//---------------------------------------------------------- End Query -----------------------------------------------------------
+
+
 	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
 	
 	
