@@ -186,8 +186,8 @@ int main() {
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
 		double tempCosSim = 0;
-		//tempCosSim = tfidfQueryVec[x].cosineSimilarity(tfidfColVec[x]);	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
-		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 			// set cosine similariry of doc to query in TFIDF obj for doc
+		tempCosSim = tfidfQueryVec[x].cosineSimilarity(tfidfColVec[x]);	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
+		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 		// set cosine similariry of doc to query in TFIDF obj for doc
 	}
 
 //--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------
