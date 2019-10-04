@@ -7,6 +7,7 @@ using namespace std;
 #include "tfidfCol.h"
 #include "fileOpener.h"
 #include "stopwordOpener.h"
+#include "porterStemmer.h"
 
 int main() {
 	
@@ -122,11 +123,59 @@ int main() {
 	}
 	cout << "number of unique unstemmed words:\t" << unique_vector.size() << endl;
 	cout << endl << endl << endl;
-	// NOTE: Documents_vec is a vector of all documents from any given file
-	// fixme - making sure Documents_vec is fully loaded every time
-	cout << Documents_vec.size() << endl;
+
+
+//----------------------------------------------- Porter Stemmer Output Calculation ----------------------------------------------
 	
-// !!!!! JEREMY PRINT PORTER STEMMER HERE !!!!!!!
+	vector<string> stemmedVector;
+	for(int i = 0; i < abstract_vec.size(); i++) {
+		stemmedVector.push_back(portStem(abstract_vec[i]));
+		cout << stemmedVector[i] << " ";
+	}
+
+//-------------------------------------------- Counting Number of Unique Stemmed Words  ------------------------------------------
+
+	unique_vector.clear();
+        for (int i = 0; i < stemmedVector.size(); ++i)
+        {
+                bool found = false;
+                for (int j = 0; j < unique_vector.size(); ++j)
+                {
+                        if (stemmedVector[i] == unique_vector[j])
+                        {
+                                found = true;
+                                break;
+                        }
+                }
+                if (!found)
+                {
+                        unique_vector.push_back(stemmedVector[i]);
+                }
+        }
+
+	cout << "\nnumber of unique stemmed words:    " << unique_vector.size() << endl;
+
+
+//-------------------------------------------- Porter Stemming For All Documents -------------------------------------------------	
+
+	vector<string> stemmingVector;
+	vector<string> tempVector;
+	for(int i = 0; i < Documents_vec.size(); i++){
+		tempVector.clear();
+		stemmingVector = Documents_vec[i].GetContent();
+		for(int j = 0; j < stemmingVector.size(); j++) {
+        	        tempVector.push_back(portStem(stemmingVector[j]));
+        	}
+		Documents_vec[i].SetContent(tempVector);
+		cout << endl;
+	}
+
+//--------------------------------------------------- End Porter Stemming --------------------------------------------------------
+
+
+	
+	// NOTE: Documents_vec is a vector of all documents from any given file
+	
 	
 	// prints tfidf information for first doc
 	tfidfColVec[0].Print();
@@ -137,14 +186,13 @@ int main() {
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
 		double tempCosSim = 0;
-		//tempCosSim = [QUERY_TFIDFCOL_OBJECT[x?]].cosineSimilarity(tfidfColVec[x]);	//FIXME
-		//                    		   ???^^???  ?obj or vec?
-		tfidfColVec[x].SetCosineSimilarity(tempCosSim);
+		//tempCosSim = tfidfQueryVec[x].cosineSimilarity(tfidfColVec[x]);	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
+		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 			// set cosine similariry of doc to query in TFIDF obj for doc
 	}
 
 //--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------
 
-	
+	sort(tfidfColVec.begin(), tfidfColVec.end());				// sorts TFIDF colection vector by cosine similarity
 
 //---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
 
