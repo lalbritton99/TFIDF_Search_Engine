@@ -118,7 +118,6 @@ void tf_idfCol::FindQueryTF(const vector<string> &AllWords){		// gets the term f
 			{
 				tfidfObject.SetName(AllWords[i]);
 				tfidfObject.SetTF(tfidfVec[j].GetTF());
-				// counter???????
 				tfidfVecQuery.push_back(tfidfObject);
 				
 			}
@@ -139,7 +138,7 @@ void tf_idfCol::FindQueryIDF(unsigned int N){ // FIXME
 	
 	for(int i = 0; i < size; i++)
 	{
-		tempIDF = log(N / tfidfVecQuery[i].GetTF());
+		tempIDF = log(N / tfidfVecQuery[i].GetDocCount());
 		tfidfVecQuery[i].SetIDF(tempIDF);
 	}
 }

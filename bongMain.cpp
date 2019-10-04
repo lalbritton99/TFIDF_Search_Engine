@@ -26,60 +26,7 @@ int main() {
 	
 	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
 	
-	// calls the TF function for all documents
-	for (unsigned int i = 0; i < docSize; i++)
-	{
-		tfidfClass.FindTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed vector instead
-		tfidfClass.SetDocID(Documents_vec[i].GetID());
-		
-		tfidfColVec.push_back(tfidfClass);
-	}
 	
-	// finding the number of documents any given word is used in, used to calculate IDF
-	for(unsigned int i = 0; i < docSize; i++)											// loops through all docs
-	{
-		for(unsigned int j = 0; j < tfidfColVec[i].GetTFIDFvec().size(); j++)	// loops through every word in a given doc
-		{
-			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
-			{
-				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec().size(); m++)	// loops through every word in every doc again
-				{
-					if(tfidfColVec[i].GetTFIDFvec()[j].GetName() == tfidfColVec[k].GetTFIDFvec()[m].GetName())
-					{
-						// increase doc counter for that word
-						((tfidfColVec[i]).GetTFIDFvec()[j]).SetDocCount();
-						//cout << ((tfidfColVec[i]).GetTFIDFvec()[j]).GetDocCount() << endl;
-						break;
-					}
-				}
-			}
-		}
-	}
-	
-	cout << "done" << endl;
-	// calls the IDF and TFIDF functions for all documents
-	for (unsigned int i = 0; i < docSize; i++)
-	{
-		tfidfColVec[i].FindIDF(docSize);
-		cout << "called IDF" << endl;
-		tfidfColVec[i].FindTFIDF();
-		cout << "called TFIDF" << endl;
-	}
-	cout << "after IDF would be called" << endl;
-	
-	// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
-	
-	// calls the tfidf functions for the QUERY
-	/*
-	for (unsigned int i = 0; i < docSize; i++)
-	{
-		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed QUERY vector instead
-		tfidfClass.FindQueryIDF(docSize);			
-		tfidfClass.FindQueryTFIDF();
-		tfidfClass.SetDocID(Documents_vec[i].GetID());
-		
-		tfidfQueryVec.push_back(tfidfClass);
-	}*/
 
 
 	// outputs the header
@@ -180,8 +127,64 @@ int main() {
 	// prints tfidf information for first doc
 	tfidfColVec[0].Print();
 
+//------------------------------------------------- TFIDF Calculations Start ------------------------------------------------------
 
+
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfClass.FindTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed vector instead
+		tfidfClass.SetDocID(Documents_vec[i].GetID());
+		
+		tfidfColVec.push_back(tfidfClass);
+	}
 	
+	// finding the number of documents any given word is used in, used to calculate IDF
+	for(unsigned int i = 0; i < docSize; i++)											// loops through all docs
+	{
+		for(unsigned int j = 0; j < tfidfColVec[i].GetTFIDFvec().size(); j++)	// loops through every word in a given doc
+		{
+			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
+			{
+				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec().size(); m++)	// loops through every word in every doc again
+				{
+					if(tfidfColVec[i].GetTFIDFvec()[j].GetName() == tfidfColVec[k].GetTFIDFvec()[m].GetName())
+					{
+						// increase doc counter for that word
+						((tfidfColVec[i]).GetTFIDFvec()[j]).SetDocCount();
+						//cout << ((tfidfColVec[i]).GetTFIDFvec()[j]).GetDocCount() << endl;
+						break;
+					}
+				}
+			}
+		}
+	}
+	// calls the IDF and TFIDF functions for all documents
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfColVec[i].FindIDF(docSize);
+		tfidfColVec[i].FindTFIDF();
+	}
+	
+	// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
+	
+	// calls the tfidf functions for the QUERY
+	/*
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());
+		tfidfClass.SetDocID(Documents_vec[i].GetID());
+		tfidfQueryVec.push_back(tfidfClass);
+	}
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		for(unsigned int j = 0; j < tfidfQueryVec[i].GetTFIDFvec().size(); j++)
+		{
+			if(tfidf
+			tfidfClass.FindQueryIDF(docSize);			
+			tfidfClass.FindQueryTFIDF();
+		}
+	}
+	*/
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
