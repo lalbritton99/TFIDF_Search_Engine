@@ -20,14 +20,20 @@ int main() {
 	vector<string> stopwords_vec = stopwordOpener();
 	vector<Document> Documents_vec = fileOpener(stopwords_vec);
 
+//------------------------------------------------------------ Query -------------------------------------------------------------
 
-// !!!!!!! JEREMY RUN PORTER STEMMER HERE !!!!!!!
+	vector<string> stoppedQuery;
+	vector<string> finalQuery;
 
-	
+        stoppedQuery = query(stopwords_vec);
+
+	for(int i = 0; i < stoppedQuery.size(); i++){
+		finalQuery.push_back(portStem(stoppedQuery[i]));
+	}
+
+//---------------------------------------------------------- End Query -----------------------------------------------------------
+
 	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
-	
-	
-
 
 	// outputs the header
 	cout << "ID:\t" << Documents_vec[0].GetID() << endl;
@@ -202,8 +208,8 @@ int main() {
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
 		double tempCosSim = 0;
-		//tempCosSim = tfidfQueryVec[x].cosineSimilarity(tfidfColVec[x]);	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
-		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 			// set cosine similariry of doc to query in TFIDF obj for doc
+		tempCosSim = tfidfQueryVec[x].cosineSimilarity(tfidfColVec[x]);	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
+		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 		// set cosine similariry of doc to query in TFIDF obj for doc
 	}
 
 //--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------

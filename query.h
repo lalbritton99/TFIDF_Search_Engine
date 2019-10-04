@@ -7,6 +7,6 @@
 #include <sstream>
 using namespace std;
 
-void query();
+vector<string> query(vector<string> stops);
 
 #endif
