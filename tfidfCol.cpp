@@ -19,6 +19,9 @@ void tf_idfCol::SetCosineSimilarity(double cosSim){                             
 double tf_idfCol::GetCosineSimilarity(){						// accessor for Cosine Similarity
 	return cosSimilarity;
 }
+vector<tf_idf> tf_idfCol::GetTFIDFvec(){
+	return tfidfVec;
+}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term frequency for every word
@@ -70,16 +73,22 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 void tf_idfCol::FindIDF(unsigned int N){ // FIXME -- Pass in the Document_Vec and then use the size of it to replace the '1'
 	
 	unsigned int size = tfidfVec.size();	// sets the size of the TFIDF vector
-	double tempIDF;							// temporary IDF variable
+	double tempIDF = 0;							// temporary IDF variable
 	
 	for(int i = 0; i < size; i++)
 	{
-		tempIDF = log(N / tfidfVec[i].GetTF());
+		//cout << tfidfVec[i].GetDocCount() << endl;
+		if(tfidfVec[i].GetDocCount() == 0)
+		{
+			tempIDF = 0;
+		}
+		else
+		{
+			tempIDF = log(N / tfidfVec[i].GetDocCount());
+			cout << tempIDF << endl;
+		}
 		tfidfVec[i].SetIDF(tempIDF);
 	}
-	
-	// '1' will become the size of the document vector 
-	// "tfidfVec[i].GetDocsAppearedIn()" will need to return the number of docs a certain word appears in
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::FindTFIDF(){

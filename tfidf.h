@@ -33,7 +33,7 @@ class tf_idf {
 		void SetTFIDF(double tfidfInput);				// mutator for tfidf
 		double GetTFIDF();								// accessor for tfidf
 		
-		void SetDocCount(int countInput);				// mutator for docCount
+		void SetDocCount();								// mutator for docCount
 		int GetDocCount();								// accessor for docCount
 };
 

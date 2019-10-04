@@ -6,7 +6,7 @@ tf_idf::tf_idf(){										// constructor
 	tf = 0;									
 	idf = 0;								
 	tfidf = 0;	
-	docCount = 0;
+	docCount = 1;
 }
 
 void tf_idf::SetID(int idInput){						// mutator for id
@@ -43,8 +43,8 @@ void tf_idf::SetTFIDF(double tfidfInput){				// mutator for tfidf
 double tf_idf::GetTFIDF(){								// accessor for tfidf
 	return tfidf;
 }
-void tf_idf::SetDocCount(int countInput){				// mutator for docCount
-	docCount = countInput;
+void tf_idf::SetDocCount(){				// mutator for docCount
+	++docCount;
 }
 int tf_idf::GetDocCount(){								// accessor for docCount
 	return docCount;

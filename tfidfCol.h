@@ -33,6 +33,7 @@ class tf_idfCol {
 		int getTFIDFVecSize();					// returns size of TFIDF vector
 		tf_idf getTFIDFObj(int index);			// returns TFIDF at given index in TFIDF vector. Accessor function
 	
+		vector<tf_idf> GetTFIDFvec();
 		
 		bool operator < (tf_idfCol const &T){ 				// overload < operator
 			return cosSimilarity < T.cosSimilarity;
