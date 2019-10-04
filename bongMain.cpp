@@ -8,9 +8,10 @@ using namespace std;
 #include "fileOpener.h"
 #include "stopwordOpener.h"
 #include "porterStemmer.h"
+#include "query.h"
 
 int main() {
-	
+
 	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
 	vector<tf_idfCol> tfidfQueryVec;		// vector for all tfidfs for every query word
 	tf_idfCol tfidfClass;
@@ -20,8 +21,7 @@ int main() {
 	vector<string> stopwords_vec = stopwordOpener();
 	vector<Document> Documents_vec = fileOpener(stopwords_vec);
 
-
-// !!!!!!! JEREMY RUN PORTER STEMMER HERE !!!!!!!
+	query();
 
 	
 	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
