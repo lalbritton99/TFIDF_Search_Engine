@@ -82,12 +82,18 @@ int main() {
 	}
 	cout << "number of unique unstemmed words:\t" << unique_vector.size() << endl;
 	cout << endl << endl << endl;
+
+
+//----------------------------------------------- Porter Stemmer Output Calculation ----------------------------------------------
 	
 	vector<string> stemmedVector;
 	for(int i = 0; i < abstract_vec.size(); i++) {
 		stemmedVector.push_back(portStem(abstract_vec[i]));
 		cout << stemmedVector[i] << " ";
 	}
+
+//-------------------------------------------- Counting Number of Unique Stemmed Words  ------------------------------------------
+
 	unique_vector.clear();
         for (int i = 0; i < stemmedVector.size(); ++i)
         {
@@ -107,6 +113,10 @@ int main() {
         }
 
 	cout << "\nnumber of unique stemmed words:    " << unique_vector.size() << endl;
+
+
+//-------------------------------------------- Porter Stemming For All Documents -------------------------------------------------	
+
 	vector<string> stemmingVector;
 	vector<string> tempVector;
 	for(int i = 0; i < Documents_vec.size(); i++){
@@ -119,12 +129,12 @@ int main() {
 		cout << endl;
 	}
 
+//--------------------------------------------------- End Porter Stemming --------------------------------------------------------
+
+
 	
 	// NOTE: Documents_vec is a vector of all documents from any given file
-	// fixme - making sure Documents_vec is fully loaded every time
-	cout << Documents_vec.size() << endl;
 	
-// !!!!! JEREMY PRINT PORTER STEMMER HERE !!!!!!!
 	
 	// prints tfidf information for first doc
 	tfidfColVec[0].Print();
