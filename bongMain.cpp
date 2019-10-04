@@ -10,35 +10,36 @@ using namespace std;
 #include "porterStemmer.h"
 
 int main() {
+	
+	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
+	tf_idfCol tfidfClass;
 // fixme - testing parts 1 and 2
-/*	
-	tf_idfCol tfidfClass;	// instance of the tfidf collection class
-	
-//- LINES 15 - 34 ARE TEMPORARY. Using them for testing. Can be commented out if you need. -Austin ------------------------------
-	int numWords; 
-	string word;
-	vector<string>AllWords;	
-	
-	// Getting the temporary vector
-	cout << "Enter the number of words to enter: ";
-	cin >> numWords;
-	for(int i = 0; i < numWords; i++)
-	{
-		cout << "Enter word " << i+1 << ": ";
-		cin >> word;
-		AllWords.push_back(word);
-	}
-	
-	tfidfClass.FindTF(AllWords);	// TEMPORARY FOR TESTING
-	tfidfClass.FindIDF();			// TEMPORARY FOR TESTING
-	tfidfClass.FindTFIDF();			// TEMPORARY FOR TESTING
-	tfidfClass.Print();				// TEMPORARY FOR TESTING
-//-------------------------------------------------------------------------------------------------------------------------------
-*/
-	// * MARCUS'S FEATURES *
+
 	// runs the stopwords and documents file functions
 	vector<string> stopwords_vec = stopwordOpener();
 	vector<Document> Documents_vec = fileOpener(stopwords_vec);
+
+// !!!!!!! JEREMY RUN PORTER STEMMER HERE !!!!!!!
+
+	// calls all functions for the TFIDF calculations
+	
+//	loop through document class, for each doc, pass in the porter-stemmed abstract, add tfidfClass to tfidfColVec
+
+	unsigned int docSize = Documents_vec.size();
+	
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfClass.FindTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed vector instead
+		tfidfClass.FindIDF(docSize);			
+		tfidfClass.FindTFIDF();
+		tfidfClass.SetDocID(Documents_vec[i].GetID());
+		
+		tfidfColVec.push_back(tfidfClass);
+	}
+			
+
+// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
+
 
 	// outputs the header
 	cout << "ID:\t" << Documents_vec[0].GetID() << endl;
@@ -123,7 +124,48 @@ int main() {
 	// NOTE: Documents_vec is a vector of all documents from any given file
 	// fixme - making sure Documents_vec is fully loaded every time
 	cout << Documents_vec.size() << endl;
-	// * END MARCUS'S FEATURES *
+	
+// !!!!! JEREMY PRINT PORTER STEMMER HERE !!!!!!!
+	
+	// prints tfidf information for first doc
+	tfidfColVec[0].Print();
+
+
+	
+//------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
+
+	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
+		double tempCosSim = 0;
+		//tempCosSim = tfidfQueryVec[x].cosineSimilarity(tfidfColVec[x]);	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
+		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 			// set cosine similariry of doc to query in TFIDF obj for doc
+	}
+
+//--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------
+
+	sort(tfidfColVec.begin(), tfidfColVec.end());				// sorts TFIDF colection vector by cosine similarity
+
+//---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
+
+	cout << endl << "The top most similar documents are:" << endl;
+
+	if(tfidfColVec.size() >= 5){						// for first 5 docs after the sort
+		for(int x=0; x<5; x++){
+			if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
+				tfidfColVec[x].printCSInfo();			// print info
+			}
+		}
+	}
+	else{
+		for(int x=0; x<tfidfColVec.size(); x++){			// if less than 5 docs, look at whole vector 
+        	        if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
+                                tfidfColVec[x].printCSInfo();			// print info 
+                        }
+       		}
+	}
+
+	cout << endl << "Complete!" << endl << endl;
+
+
 
 	return 0;
 }

@@ -1,31 +1,31 @@
 #include "tfidfCol.h"
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <iomanip>
-#include <cmath>
 
-tf_idfCol::tf_idfCol(){									// constructer
-	firstDocID = 0;
+tf_idfCol::tf_idfCol(){								// constructer
+	docID = "none";
+	cosSimilarity = 0;
 }
 
-void tf_idfCol::SetFirstDocID(int firstDocIdInput){		// mutator for firstDocID
-	firstDocID = firstDocIdInput;
+void tf_idfCol::SetDocID(string docIdInput){		// mutator for docID
+	docID = docIdInput;
 }
-int tf_idfCol::GetFirstDocID(){							// accessor for firstDocID
-		return firstDocID;
+string tf_idfCol::GetDocID(){						// accessor for docID
+		return docID;
 }
+
+void tf_idfCol::SetCosineSimilarity(double cosSim){                                // mutator for Cosine Similarity
+	cosSimilarity = cosSim;
+}
+
+double tf_idfCol::GetCosineSimilarity(){						// accessor for Cosine Similarity
+	return cosSimilarity;
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term frequency for every word
 	
 	int counter = 0;			// used to keep track of if the word has been used before or not, increments the TF by either 0, or 1
 	tf_idf tfidfObject; 		// object for the tf_idf class
 	bool canSet = 1;			// turns false when a duplicate is found, not allowing it to be added to the vector
-	int docCounter = 0;			// counts the number of docs get entered into this function 
-	
-	int tempID = 1;				// TEMPORARY
-	docCounter++;
 	
 	// Checking every word, copying it into new vector, and increasing term frequency when neccessary
 	for(unsigned int i = 0; i < AllWords.size(); i++) 
@@ -38,7 +38,6 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 			counter = 1;
 			tfidfObject.SetName(AllWords[i]);		// sets the name of the word
 			tfidfObject.SetTF(counter);				// sets the TF
-			tfidfObject.SetDocsAppearedIn(1);		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
 			tfidfVec.push_back(tfidfObject);		// copies to the tfidf vector
 		}
 		else 
@@ -50,8 +49,6 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 					counter = 1;
 					canSet = 0;								// duplicate words do not get added to the vector
 					tfidfVec[j].SetTF(counter);				// increases TF for the re-used words
-					tfidfVec[j].SetDocsAppearedIn(counter++);
-					//TODO: add to docsAppearedIn - check for multiple IDs
 				}
 			}
 			
@@ -60,7 +57,6 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 				counter = 0;
 				tfidfObject.SetName(AllWords[i]);		// sets the name of the word
 				tfidfObject.SetTF(counter);				// sets the TF for the word
-				tfidfObject.SetDocsAppearedIn(1);		// TODO: ADD TO DOCSAPPEAREDIN - check for multiple IDs
 				tfidfVec.push_back(tfidfObject);		// copies to the tfidf vector
 			}
 		}
@@ -71,14 +67,14 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 	
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindIDF(){ // FIXME 
+void tf_idfCol::FindIDF(unsigned int N){ // FIXME -- Pass in the Document_Vec and then use the size of it to replace the '1'
 	
 	unsigned int size = tfidfVec.size();	// sets the size of the TFIDF vector
 	double tempIDF;							// temporary IDF variable
 	
 	for(int i = 0; i < size; i++)
 	{
-		tempIDF = log(1 / tfidfVec[i].GetDocsAppearedIn());
+		tempIDF = log(N / tfidfVec[i].GetTF());
 		tfidfVec[i].SetIDF(tempIDF);
 	}
 	
@@ -99,6 +95,8 @@ void tf_idfCol::FindTFIDF(){
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::FindQueryTF(const vector<string> &AllWords){		// gets the term frequency for every word
+
+// FIXME check if the words in the query are in any of the documents, if so, then increase TF
 	
 	int counter = 0;			// used to keep track of if the word has been used before or not, increments the TF by either 0, or 1
 	tf_idf tfidfObject; 		// object for the tf_idf class
@@ -171,29 +169,32 @@ void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first d
 	// TODO: Need to add if statment to check if within the first doc that gets entered
 	
 	// Prints the head of the table
-	cout << setw(10) << "NAME";
-	cout << setw(10) << "TF";
-	cout << setw(10) << "IDF";
-	cout << setw(10) << "TF-IDF";
+	cout << setw(30) << "NAME";
+	cout << setw(15) << "TF";
+	cout << setw(15) << "IDF";
+	cout << setw(15) << "TF-IDF";
 	cout << endl;
 	
 	// Prints all the rows of the table
 	for(unsigned int i = 0; i < size; i++)
 	{
-		cout << setw(10) << tfidfVec[i].GetName();
-		cout << setw(10) << tfidfVec[i].GetTF();
-		cout << setw(10) << tfidfVec[i].GetIDF();
-		cout << setw(10) << tfidfVec[i].GetTFIDF();
+		cout << setw(30) << tfidfVec[i].GetName();
+		cout << setw(15) << tfidfVec[i].GetTF();
+		cout << setw(15) << tfidfVec[i].GetIDF();
+		cout << setw(15) << tfidfVec[i].GetTFIDF();
 		cout << endl; 
 	}
 	
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------
+void tf_idfCol::printCSInfo(){			// prints final output. doc similarity info after sort
+        cout << "\t" << docID << "\t" << setprecision(5) << fixed << cosSimilarity << endl;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 int tf_idfCol::getTFIDFVecSize(){	// returns size of TFIDF vector
 	return tfidfVec.size();
 }
-
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 tf_idf tf_idfCol::getTFIDFObj(int index){	// returns TFIDF at given index in TFIDF vector
 	return tfidfVec[index];
 }
