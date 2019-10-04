@@ -8,10 +8,9 @@ using namespace std;
 #include "fileOpener.h"
 #include "stopwordOpener.h"
 #include "porterStemmer.h"
-#include "query.h"
 
 int main() {
-
+	
 	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
 	vector<tf_idfCol> tfidfQueryVec;		// vector for all tfidfs for every query word
 	tf_idfCol tfidfClass;
@@ -21,7 +20,8 @@ int main() {
 	vector<string> stopwords_vec = stopwordOpener();
 	vector<Document> Documents_vec = fileOpener(stopwords_vec);
 
-	query();
+
+// !!!!!!! JEREMY RUN PORTER STEMMER HERE !!!!!!!
 
 	
 	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
@@ -168,10 +168,10 @@ int main() {
 	// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
 	
 	// calls the tfidf functions for the QUERY
-	/*
+	
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());
+		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());	// FIXME pass in porter stemmed query
 		tfidfClass.SetDocID(Documents_vec[i].GetID());
 		tfidfQueryVec.push_back(tfidfClass);
 	}
@@ -179,12 +179,25 @@ int main() {
 	{
 		for(unsigned int j = 0; j < tfidfQueryVec[i].GetTFIDFvec().size(); j++)
 		{
-			if(tfidf
-			tfidfClass.FindQueryIDF(docSize);			
-			tfidfClass.FindQueryTFIDF();
+			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
+			{
+				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec().size(); m++)	// loops through every word in every doc again
+				{
+					if(tfidfQueryVec[i].GetTFIDFvec()[j].GetName() == tfidfColVec[k].GetTFIDFvec()[m].GetName())
+					{
+						// increase doc counter for that word
+						(tfidfQueryVec[i].GetTFIDFvec()[j]).SetIDF(tfidfColVec[k].GetTFIDFvec()[m].GetIDF());
+						break;
+					}
+				}
+			}
 		}
 	}
-	*/
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfQueryVec[i].FindQueryTFIDF();
+	}
+	
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
