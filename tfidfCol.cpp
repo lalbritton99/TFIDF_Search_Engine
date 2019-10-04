@@ -85,7 +85,6 @@ void tf_idfCol::FindIDF(unsigned int N){ // FIXME -- Pass in the Document_Vec an
 		else
 		{
 			tempIDF = log(N / tfidfVec[i].GetDocCount());
-			cout << tempIDF << endl;
 		}
 		tfidfVec[i].SetIDF(tempIDF);
 	}

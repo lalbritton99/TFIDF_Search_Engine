@@ -8,6 +8,7 @@ using namespace std;
 #include "fileOpener.h"
 #include "stopwordOpener.h"
 #include "porterStemmer.h"
+#include "query.h"
 
 int main() {
 	
@@ -130,8 +131,7 @@ int main() {
 	// NOTE: Documents_vec is a vector of all documents from any given file
 	
 	
-	// prints tfidf information for first doc
-	tfidfColVec[0].Print();
+	
 
 //------------------------------------------------- TFIDF Calculations Start ------------------------------------------------------
 
@@ -177,7 +177,7 @@ int main() {
 	
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());	// FIXME pass in porter stemmed query
+		tfidfClass.FindQueryTF(finalQuery);	
 		tfidfClass.SetDocID(Documents_vec[i].GetID());
 		tfidfQueryVec.push_back(tfidfClass);
 	}
@@ -204,6 +204,8 @@ int main() {
 		tfidfQueryVec[i].FindQueryTFIDF();
 	}
 	
+	// prints tfidf information for first doc
+	tfidfColVec[0].Print();
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
