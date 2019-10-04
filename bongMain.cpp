@@ -11,7 +11,7 @@ using namespace std;
 #include "query.h"
 
 int main() {
-
+	
 	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
 	vector<tf_idfCol> tfidfQueryVec;		// vector for all tfidfs for every query word
 	tf_idfCol tfidfClass;
@@ -34,11 +34,7 @@ int main() {
 
 //---------------------------------------------------------- End Query -----------------------------------------------------------
 
-
 	unsigned int docSize = Documents_vec.size();	// stores the size of the document vector
-	
-	
-
 
 	// outputs the header
 	cout << "ID:\t" << Documents_vec[0].GetID() << endl;
@@ -135,8 +131,7 @@ int main() {
 	// NOTE: Documents_vec is a vector of all documents from any given file
 	
 	
-	// prints tfidf information for first doc
-	tfidfColVec[0].Print();
+	
 
 //------------------------------------------------- TFIDF Calculations Start ------------------------------------------------------
 
@@ -179,10 +174,10 @@ int main() {
 	// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
 	
 	// calls the tfidf functions for the QUERY
-	/*
+	
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfClass.FindQueryTF(Documents_vec[i].GetContent());
+		tfidfClass.FindQueryTF(finalQuery);	
 		tfidfClass.SetDocID(Documents_vec[i].GetID());
 		tfidfQueryVec.push_back(tfidfClass);
 	}
@@ -190,12 +185,27 @@ int main() {
 	{
 		for(unsigned int j = 0; j < tfidfQueryVec[i].GetTFIDFvec().size(); j++)
 		{
-			if(tfidf
-			tfidfClass.FindQueryIDF(docSize);			
-			tfidfClass.FindQueryTFIDF();
+			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
+			{
+				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec().size(); m++)	// loops through every word in every doc again
+				{
+					if(tfidfQueryVec[i].GetTFIDFvec()[j].GetName() == tfidfColVec[k].GetTFIDFvec()[m].GetName())
+					{
+						// increase doc counter for that word
+						(tfidfQueryVec[i].GetTFIDFvec()[j]).SetIDF(tfidfColVec[k].GetTFIDFvec()[m].GetIDF());
+						break;
+					}
+				}
+			}
 		}
 	}
-	*/
+	for (unsigned int i = 0; i < docSize; i++)
+	{
+		tfidfQueryVec[i].FindQueryTFIDF();
+	}
+	
+	// prints tfidf information for first doc
+	tfidfColVec[0].Print();
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
