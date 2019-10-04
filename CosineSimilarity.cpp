@@ -50,6 +50,6 @@ double tf_idfCol::cosineSimilarity(tf_idfCol secondSet) {
 	double cosSim = 0;
 	
 	cosSim = dotProduct(secondSet) / squareProduct(secondSet);					// divide numerator of cosine similarity equation by denomonator
-	
+
 	return cosSim;
 }
