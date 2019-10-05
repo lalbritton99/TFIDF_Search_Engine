@@ -138,32 +138,42 @@ int main() {
 
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfClass.FindTF(Documents_vec[i].GetContent());	// FIXME: pass in porter stemmed vector instead
+		tfidfClass.FindTF(Documents_vec[i].GetContent());
 		tfidfClass.SetDocID(Documents_vec[i].GetID());
 		
 		tfidfColVec.push_back(tfidfClass);
 	}
 	
 	// finding the number of documents any given word is used in, used to calculate IDF
-	for(unsigned int i = 0; i < docSize; i++)											// loops through all docs
+	for(unsigned int i = 0; i < docSize; i++)												// loops through all docs
 	{
-		for(unsigned int j = 0; j < tfidfColVec[i].GetTFIDFvec().size(); j++)	// loops through every word in a given doc
+		vector<tf_idf> tempVec = *tfidfColVec[i].GetTFIDFvec();								// temp. vector to hold all tfidf objects for a doc
+		for(unsigned int j = 0; j < tempVec.size(); j++)//make this 3rd loop									// loops through every word in a given doc
 		{
-			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
+			for(unsigned int k = i; k < docSize; k++)// make this 2nd loop										// loops through every doc again
 			{
-				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec().size(); m++)	// loops through every word in every doc again
+				vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();					// temp. vector to hold all tfidf objects for a doc
+				if(k == i)
 				{
-					if(tfidfColVec[i].GetTFIDFvec()[j].GetName() == tfidfColVec[k].GetTFIDFvec()[m].GetName())
+				}
+				else
+				{
+					for (unsigned int m = j; m < tempVec2.size(); m++)	// loops through every word in every doc again
 					{
-						// increase doc counter for that word
-						((tfidfColVec[i]).GetTFIDFvec()[j]).SetDocCount();
-						//cout << ((tfidfColVec[i]).GetTFIDFvec()[j]).GetDocCount() << endl;
-						break;
+						if(tempVec[j].GetName() == tempVec2[m].GetName())
+						{
+							// increase doc counter for that word
+							tempVec[j].SetDocCount();
+							//cout << tempVec[j].GetDocCount() << endl;
+							tfidfColVec[i].SetTFIDFvec(tempVec);
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
+	
 	// calls the IDF and TFIDF functions for all documents
 	for (unsigned int i = 0; i < docSize; i++)
 	{
@@ -181,31 +191,37 @@ int main() {
 		tfidfClass.SetDocID(Documents_vec[i].GetID());
 		tfidfQueryVec.push_back(tfidfClass);
 	}
+	/*
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		for(unsigned int j = 0; j < tfidfQueryVec[i].GetTFIDFvec().size(); j++)
+		for(unsigned int j = 0; j < tfidfQueryVec[i].GetTFIDFvec()->size(); j++)
 		{
 			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
 			{
-				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec().size(); m++)	// loops through every word in every doc again
+				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec()->size(); m++)	// loops through every word in every doc again
 				{
-					if(tfidfQueryVec[i].GetTFIDFvec()[j].GetName() == tfidfColVec[k].GetTFIDFvec()[m].GetName())
+					if(tfidfQueryVec[i].GetTFIDFvec()[j]->GetName() == tfidfColVec[k].GetTFIDFvec()[m]->GetName())
 					{
 						// increase doc counter for that word
-						(tfidfQueryVec[i].GetTFIDFvec()[j]).SetIDF(tfidfColVec[k].GetTFIDFvec()[m].GetIDF());
+						(tfidfQueryVec[i].GetTFIDFvec()[j])->SetIDF(tfidfColVec[k].GetTFIDFvec()[m]->GetIDF());
 						break;
 					}
 				}
 			}
 		}
 	}
+	*/
 	for (unsigned int i = 0; i < docSize; i++)
 	{
 		tfidfQueryVec[i].FindQueryTFIDF();
 	}
 	
 	// prints tfidf information for first doc
-	tfidfColVec[0].Print();
+	for(unsigned int i = 0; i < tfidfColVec.size(); i++)
+	{
+		cout << "--------" << endl;
+		tfidfColVec[i].Print();
+	}
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector

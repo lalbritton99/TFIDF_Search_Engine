@@ -19,9 +19,14 @@ void tf_idfCol::SetCosineSimilarity(double cosSim){                             
 double tf_idfCol::GetCosineSimilarity(){						// accessor for Cosine Similarity
 	return cosSimilarity;
 }
-vector<tf_idf> tf_idfCol::GetTFIDFvec(){
-	return tfidfVec;
+void tf_idfCol::SetTFIDFvec(vector<tf_idf> &vecInput){
+	tfidfVec = vecInput;
 }
+vector<tf_idf>* tf_idfCol::GetTFIDFvec(){
+	vector<tf_idf>* tfidfPointer = &tfidfVec;
+	return tfidfPointer;
+}
+
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term frequency for every word
@@ -30,6 +35,7 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 	tf_idf tfidfObject; 		// object for the tf_idf class
 	bool canSet = 1;			// turns false when a duplicate is found, not allowing it to be added to the vector
 	
+	tfidfVec.clear();
 	// Checking every word, copying it into new vector, and increasing term frequency when neccessary
 	for(unsigned int i = 0; i < AllWords.size(); i++) 
 	{
@@ -154,11 +160,10 @@ void tf_idfCol::FindQueryTFIDF(){
 	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first doc
+void tf_idfCol::Print(){	// prints all the words		
 	
 	unsigned int size = tfidfVec.size();	// sets the size of the vector
 	
-	// TODO: Need to add if statment to check if within the first doc that gets entered
 	
 	// Prints the head of the table
 	cout << setw(30) << "NAME";
@@ -172,8 +177,8 @@ void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first d
 	{
 		cout << setw(30) << tfidfVec[i].GetName();
 		cout << setw(15) << tfidfVec[i].GetTF();
-		cout << setw(15) << tfidfVec[i].GetIDF();
-		cout << setw(15) << tfidfVec[i].GetTFIDF();
+		cout << setw(15) << setprecision(5) << fixed << tfidfVec[i].GetIDF();
+		cout << setw(15) << setprecision(5) << fixed << tfidfVec[i].GetTFIDF();
 		cout << endl; 
 	}
 	
