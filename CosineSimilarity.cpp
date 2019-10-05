@@ -4,13 +4,27 @@
 double tf_idfCol::dotProduct(tf_idfCol secondSet) { //declaration located in tfidfCol.h
 	
 	double dotProd = 0;										// Var to hold and return Dot Product
-	
+	double thisTFIDF = 0;
+	double passedTFIDF = 0;
+
 	for(int x=0; x < this->getTFIDFVecSize(); x++) {						// loops through current TFIDF vec
 		for(int y=0; y < secondSet.getTFIDFVecSize(); y++) { 					// loops through passed TFIDF vec
+		
+		//---------------------------------------------------------------------------------------------------------------------
+		//Testing FIXME
+		//
+			cout << "Query Word: " << (this->getTFIDFObj(x)).GetName() << endl;
+			cout << "Doc Word: " << (secondSet.getTFIDFObj(y)).GetName() << endl;
+			cout << "Query Length: " << this->getTFIDFVecSize() << endl;
+			cout << "Doc Length: " << secondSet.getTFIDFVecSize() << endl;
+
+		//---------------------------------------------------------------------------------------------------------------------
 			if((this->getTFIDFObj(x)).GetName() == (secondSet.getTFIDFObj(y)).GetName()){	// if words are the same
-			
-				double thisTFIDF = (this->getTFIDFObj(x)).GetTFIDF();			// double TFIDF from currect obj
-				double passedTFIDF = (secondSet.getTFIDFObj(y)).GetTFIDF();		// double TFIDF from passed obj
+				
+				cout << "---------------------------------" << endl; //FIXME
+
+				thisTFIDF = (this->getTFIDFObj(x)).GetTFIDF();				// double TFIDF from currect obj
+				passedTFIDF = (secondSet.getTFIDFObj(y)).GetTFIDF();			// double TFIDF from passed obj
 				
 				dotProd += thisTFIDF * passedTFIDF;					// Add product of TFIDFs of similar words to sum
 			}

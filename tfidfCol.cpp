@@ -180,7 +180,7 @@ void tf_idfCol::Print(){	// prints all the words		// TODO: check if only first d
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::printCSInfo(){			// prints final output. doc similarity info after sort
-        cout << "\t" << docID << "\t" << setprecision(5) << fixed << cosSimilarity << endl;
+        cout << "Doc #: " << docID << "\tCos Sim: " << setprecision(5) << fixed << cosSimilarity << endl;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 int tf_idfCol::getTFIDFVecSize(){	// returns size of TFIDF vector
