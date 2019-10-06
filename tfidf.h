@@ -22,7 +22,7 @@ class tf_idf {
 		int GetID();									// accessor for id
 		
 		void SetName(string nameInput);					// mutator for name
-		string GetName() const;							// accessor for name
+		string GetName() ;								// accessor for name
 		
 		void SetTF(int tfInput);						// mutator for tf
 		int GetTF();									// accessor for tf
@@ -37,4 +37,4 @@ class tf_idf {
 		int GetDocCount();								// accessor for docCount
 };
 
-bool operator < (const tf_idf &t1, const tf_idf &t2);	// used to sort the tfidf vector alphabetically
+bool operator < (tf_idf &t1, tf_idf &t2);				// used to sort the tfidf vector alphabetically
