@@ -225,12 +225,20 @@ void tf_idfCol::printCSInfo(){			// prints final output. doc similarity info aft
         cout << "Doc #: " << docID << "\tCos Sim: " << setprecision(5) << fixed << cosSimilarity << endl;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-int tf_idfCol::getTFIDFVecSize(){	// returns size of TFIDF vector
+int tf_idfCol::getDocTFIDFVecSize(){	// returns size of TFIDF vector
 	return tfidfVec.size();
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-tf_idf tf_idfCol::getTFIDFObj(int index){	// returns TFIDF at given index in TFIDF vector
+int tf_idfCol::getQueryTFIDFVecSize(){       // returns size of TFIDF vector
+        return tfidfVecQuery.size();
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+tf_idf tf_idfCol::getDocTFIDFObj(int index){	// returns TFIDF at given index in Doc TFIDF vector
 	return tfidfVec[index];
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+tf_idf tf_idfCol::getQueryTFIDFObj(int index){    // returns TFIDF at given index in Query TFIDF vector
+        return tfidfVecQuery[index];
 }
 
 
