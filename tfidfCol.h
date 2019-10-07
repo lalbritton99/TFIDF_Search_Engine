@@ -4,7 +4,7 @@ class tf_idfCol {
 	private:
 		vector<tf_idf>tfidfVec;						// collection of tf_idf objects
 		vector<tf_idf>tfidfVecQuery;				// collection of tf_idf objects for the QUERY
-		string docID;								// the id number of the first document that gets read in
+		string docID;								// the id number of the document
 		double cosSimilarity;						// holds Cosine Similarity for corresponding doc
 
 	public:

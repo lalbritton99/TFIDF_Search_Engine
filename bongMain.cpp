@@ -145,10 +145,7 @@ int main() {
 			vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();		// temp. vector to hold all tfidf objects for a doc
 													
 			// makes sure it doesnt check itself
-			if(tempVec[i].GetID() == tempVec2[k].GetID())
-			{
-			}
-			else
+			if(Documents_vec[i].GetID() != Documents_vec[k].GetID())
 			{
 				for(unsigned int j = 0; j < tempVec.size(); j++)			// loops through every word in a given doc
 				{
@@ -197,7 +194,6 @@ int main() {
 			// makes sure it doesnt check itself
 			if(Documents_vec[i].GetID() != Documents_vec[k].GetID())
 			{
-				cout << "in if 1" << endl;
 				for(unsigned int j = 0; j < tempVec.size(); j++)			// loops through every word in a given QUERY
 				{
 					for (unsigned int m = j; m < tempVec2.size(); m++)		// loops through every word in every doc 
