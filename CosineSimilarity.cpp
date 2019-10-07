@@ -13,15 +13,15 @@ double tf_idfCol::dotProduct(tf_idfCol secondSet) { //declaration located in tfi
 		//---------------------------------------------------------------------------------------------------------------------
 		//Testing FIXME
 		//
-			cout << "Query Word: " << (this->getTFIDFObj(x)).GetName() << endl;
-			cout << "Doc Word: " << (secondSet.getTFIDFObj(y)).GetName() << endl;
-			cout << "Query Length: " << this->getTFIDFVecSize() << endl;
-			cout << "Doc Length: " << secondSet.getTFIDFVecSize() << endl<<endl;
+			//cout << "Query Word: " << (this->getTFIDFObj(x)).GetName() << endl;
+			//cout << "Doc Word: " << (secondSet.getTFIDFObj(y)).GetName() << endl;
+			//cout << "Query Length: " << this->getTFIDFVecSize() << endl;
+			//cout << "Doc Length: " << secondSet.getTFIDFVecSize() << endl;
 
 		//--------------------------------------------------------------------------------------------------------------------- 
 			if((this->getTFIDFObj(x)).GetName() == (secondSet.getTFIDFObj(y)).GetName()){	// if words are the same
 				
-				cout << "---------------------------------" << endl; //FIXME
+				//cout << "---------------------------------" << endl; //FIXME
 
 				thisTFIDF = (this->getTFIDFObj(x)).GetTFIDF();				// double TFIDF from currect obj
 				passedTFIDF = (secondSet.getTFIDFObj(y)).GetTFIDF();			// double TFIDF from passed obj

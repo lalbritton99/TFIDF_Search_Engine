@@ -19,7 +19,7 @@ int tf_idf::GetID(){									// accessor for id
 void tf_idf::SetName(string nameInput){					// mutator for name
 	name = nameInput;
 }
-string tf_idf::GetName() const{							// accessor for name
+string tf_idf::GetName() {								// accessor for name
 	return name;
 }
 	
@@ -43,14 +43,14 @@ void tf_idf::SetTFIDF(double tfidfInput){				// mutator for tfidf
 double tf_idf::GetTFIDF(){								// accessor for tfidf
 	return tfidf;
 }
-void tf_idf::SetDocCount(){				// mutator for docCount
+void tf_idf::SetDocCount(){								// mutator for docCount
 	++docCount;
 }
 int tf_idf::GetDocCount(){								// accessor for docCount
 	return docCount;
 }
 
-bool operator < (const tf_idf &t1, const tf_idf &t2)	// used to sort the tfidf vector alphabetically
+bool operator < (tf_idf &t1, tf_idf &t2)				// used to sort the tfidf vector alphabetically
 {
     return t1.GetName() < t2.GetName();
 }

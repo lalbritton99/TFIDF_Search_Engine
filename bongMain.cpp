@@ -14,7 +14,7 @@ int main() {
 	
 	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
 	vector<tf_idfCol> tfidfQueryVec;		// vector for all tfidfs for every query word
-	tf_idfCol tfidfClass;
+	tf_idfCol tfidfClass;					// instance of tfidf collection class
 // fixme - testing parts 1 and 2
 
 	// runs the stopwords and documents file functions
@@ -124,16 +124,7 @@ int main() {
 		cout << endl;
 	}
 
-//--------------------------------------------------- End Porter Stemming --------------------------------------------------------
-
-
-	
-	// NOTE: Documents_vec is a vector of all documents from any given file
-	
-	
-	
-
-//------------------------------------------------- TFIDF Calculations Start ------------------------------------------------------
+//------------------------------------------------- TFIDF DOC Calculations Start --------------------------------------------------
 
 
 	for (unsigned int i = 0; i < docSize; i++)
@@ -145,27 +136,29 @@ int main() {
 	}
 	
 	// finding the number of documents any given word is used in, used to calculate IDF
-	for(unsigned int i = 0; i < docSize; i++)												// loops through all docs
+	for(unsigned int i = 0; i < docSize; i++)								// loops through all docs
 	{
-		vector<tf_idf> tempVec = *tfidfColVec[i].GetTFIDFvec();								// temp. vector to hold all tfidf objects for a doc
-		for(unsigned int j = 0; j < tempVec.size(); j++)//make this 3rd loop									// loops through every word in a given doc
+		vector<tf_idf> tempVec = *tfidfColVec[i].GetTFIDFvec();				// temp. vector to hold all tfidf objects for a doc
+		
+		for(unsigned int k = i; k < docSize; k++)							// loops through every doc again							
 		{
-			for(unsigned int k = i; k < docSize; k++)// make this 2nd loop										// loops through every doc again
+			vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();		// temp. vector to hold all tfidf objects for a doc
+													
+			// makes sure it doesnt check itself
+			if(tempVec[i].GetID() == tempVec2[k].GetID())
 			{
-				vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();					// temp. vector to hold all tfidf objects for a doc
-				if(k == i)
+			}
+			else
+			{
+				for(unsigned int j = 0; j < tempVec.size(); j++)			// loops through every word in a given doc
 				{
-				}
-				else
-				{
-					for (unsigned int m = j; m < tempVec2.size(); m++)	// loops through every word in every doc again
+					for (unsigned int m = j; m < tempVec2.size(); m++)		// loops through every word in every doc again
 					{
 						if(tempVec[j].GetName() == tempVec2[m].GetName())
 						{
-							// increase doc counter for that word
-							tempVec[j].SetDocCount();
+							tempVec[j].SetDocCount();						// increase doc counter for that word
 							//cout << tempVec[j].GetDocCount() << endl;
-							tfidfColVec[i].SetTFIDFvec(tempVec);
+							tfidfColVec[i].SetTFIDFvec(tempVec);			// sets the temporary vector to the real vector
 							break;
 						}
 					}
@@ -174,53 +167,68 @@ int main() {
 		}
 	}
 	
-	// calls the IDF and TFIDF functions for all documents
+	// calls the IDF and TFIDF functions for all DOCUMENTS
 	for (unsigned int i = 0; i < docSize; i++)
 	{
 		tfidfColVec[i].FindIDF(docSize);
 		tfidfColVec[i].FindTFIDF();
 	}
-	
-	// !!!!!!! JEREMY RUN QUERY STUFF HERE !!!!!!!
-	
-	// calls the tfidf functions for the QUERY
-	
+
+//------------------------------------------------- TFIDF Query Calculations Start ---------------------------------------------
+
+	// calls the TF function for the QUERY
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfClass.FindQueryTF(finalQuery);	
-		tfidfClass.SetDocID(Documents_vec[i].GetID());
-		tfidfQueryVec.push_back(tfidfClass);
+
+		tfidfColVec[i].FindQueryTF(finalQuery);	
+		tfidfColVec[i].SetDocID(Documents_vec[i].GetID());
+		//tfidfQueryVec.push_back(tfidfColVec[i]);
 	}
-	/*
-	for (unsigned int i = 0; i < docSize; i++)
+	
+	// Finds the IDF for every word in the query for every doc
+	for(unsigned int i = 0; i < docSize; i++)								// loops through all docs
 	{
-		for(unsigned int j = 0; j < tfidfQueryVec[i].GetTFIDFvec()->size(); j++)
+		vector<tf_idf> tempVec = *tfidfColVec[i].GetQueryVec();			// temp. vector to hold all tfidf objects for a QUERY
+		
+		for(unsigned int k = i; k < docSize; k++)							// loops through every doc again							
 		{
-			for(unsigned int k = i; k < docSize; k++)		// loops through every doc again
+			vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();		// temp. vector to hold all tfidf objects for a DOC
+													
+			// makes sure it doesnt check itself
+			if(Documents_vec[i].GetID() != Documents_vec[k].GetID())
 			{
-				for (unsigned int m = j; m < tfidfColVec[k].GetTFIDFvec()->size(); m++)	// loops through every word in every doc again
+				cout << "in if 1" << endl;
+				for(unsigned int j = 0; j < tempVec.size(); j++)			// loops through every word in a given QUERY
 				{
-					if(tfidfQueryVec[i].GetTFIDFvec()[j]->GetName() == tfidfColVec[k].GetTFIDFvec()[m]->GetName())
+					for (unsigned int m = j; m < tempVec2.size(); m++)		// loops through every word in every doc 
 					{
-						// increase doc counter for that word
-						(tfidfQueryVec[i].GetTFIDFvec()[j])->SetIDF(tfidfColVec[k].GetTFIDFvec()[m]->GetIDF());
-						break;
+						if(tempVec[j].GetName() == tempVec2[m].GetName())
+						{
+							tempVec[j].SetIDF(tempVec2[m].GetIDF());		// increase doc counter for that word
+							//cout << tempVec[j].GetIDF() << endl;
+							tfidfColVec[i].SetTFIDFQueryVec(tempVec);		// sets the temporary vector to the real vector
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
-	*/
+	
+	// Finds the TFIDF for every word in the query for every doc
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfQueryVec[i].FindQueryTFIDF();
+		tfidfColVec[i].FindQueryTFIDF();
 	}
 	
+//---------------------------------------------------- Printing TFIDF Information -----------------------------------------------
 	// prints tfidf information for first doc
+	tfidfColVec[0].Print();
+	
 	for(unsigned int i = 0; i < tfidfColVec.size(); i++)
 	{
 		cout << "--------" << endl;
-		tfidfColVec[i].Print();
+		tfidfColVec[i].PrintQuery();
 	}
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 

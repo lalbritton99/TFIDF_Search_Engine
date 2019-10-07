@@ -26,8 +26,14 @@ vector<tf_idf>* tf_idfCol::GetTFIDFvec(){
 	vector<tf_idf>* tfidfPointer = &tfidfVec;
 	return tfidfPointer;
 }
-
-
+void tf_idfCol::SetTFIDFQueryVec(vector<tf_idf> &vecInput)
+{
+	tfidfVecQuery = vecInput;
+}
+vector<tf_idf>* tf_idfCol::GetQueryVec(){
+	vector<tf_idf>* tfidfPointer = &tfidfVecQuery;
+	return tfidfPointer;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term frequency for every word
 	
@@ -35,7 +41,8 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 	tf_idf tfidfObject; 		// object for the tf_idf class
 	bool canSet = 1;			// turns false when a duplicate is found, not allowing it to be added to the vector
 	
-	tfidfVec.clear();
+	tfidfVec.clear();			// clears the vector so it is empty at the start of every doc
+	
 	// Checking every word, copying it into new vector, and increasing term frequency when neccessary
 	for(unsigned int i = 0; i < AllWords.size(); i++) 
 	{
@@ -76,10 +83,10 @@ void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term freque
 	
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindIDF(unsigned int N){ // FIXME -- Pass in the Document_Vec and then use the size of it to replace the '1'
+void tf_idfCol::FindIDF(unsigned int N){ 
 	
 	unsigned int size = tfidfVec.size();	// sets the size of the TFIDF vector
-	double tempIDF = 0;							// temporary IDF variable
+	double tempIDF = 0;						// temporary IDF variable
 	
 	for(int i = 0; i < size; i++)
 	{
@@ -108,42 +115,47 @@ void tf_idfCol::FindTFIDF(){
 	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindQueryTF(const vector<string> &AllWords){		// gets the term frequency for every word in the query
+void tf_idfCol::FindQueryTF(const vector<string> &QueryWords){		// gets the term frequency for every word in the query
 
 	tf_idf tfidfObject; 		// object for the tf_idf class
 	int count = 0;
 	
+	tfidfVecQuery.clear();		// clears the vector so it is empty at the start of every doc
+	
 	// Checking every word, copying it into new query vector, and setting term frequency
-	for(unsigned int i = 0; i < AllWords.size(); i++) 
+	for(unsigned int i = 0; i < QueryWords.size(); i++) 
 	{
 		for (unsigned int j = 0; j < tfidfVec.size(); j++)
 		{
 			count = 0;
-			if(tfidfVec[j].GetName() == AllWords[i])	// checks if the word has already been added to the tfidf vector
+			if(tfidfVec[j].GetName() == QueryWords[i])	// checks if the word in the query is in the tfidf vector
 			{
-				tfidfObject.SetName(AllWords[i]);
+				// adds to the query vector for each doc if the word is used within the doc
+				tfidfObject.SetName(QueryWords[i]);
 				tfidfObject.SetTF(tfidfVec[j].GetTF());
 				tfidfVecQuery.push_back(tfidfObject);
+				break;
 				
 			}
-			else
-			{
-				tfidfObject.SetName(AllWords[i]);
-				tfidfObject.SetTF(0);
-				tfidfVecQuery.push_back(tfidfObject);
-			}
 		}
-	} 
+	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-void tf_idfCol::FindQueryIDF(unsigned int N){ // FIXME 
+void tf_idfCol::FindQueryIDF(unsigned int N){  
 	
 	unsigned int size = tfidfVecQuery.size();	// sets the size of the TFIDF vector
 	double tempIDF;								// temporary IDF variable
 	
 	for(int i = 0; i < size; i++)
 	{
-		tempIDF = log(N / tfidfVecQuery[i].GetDocCount());
+		if(tfidfVecQuery[i].GetDocCount() == 0)
+		{
+			tempIDF = 0;
+		}
+		else
+		{
+			tempIDF = log(N / tfidfVecQuery[i].GetDocCount());
+		}
 		tfidfVecQuery[i].SetIDF(tempIDF);
 	}
 }
@@ -183,6 +195,31 @@ void tf_idfCol::Print(){	// prints all the words
 	}
 	
 }
+//---------------------------------------------------------------
+void tf_idfCol::PrintQuery(){	// prints all the words		
+	
+	unsigned int size = tfidfVecQuery.size();	// sets the size of the vector
+	
+	
+	// Prints the head of the table
+	cout << setw(30) << "NAME";
+	cout << setw(15) << "TF";
+	cout << setw(15) << "IDF";
+	cout << setw(15) << "TF-IDF";
+	cout << endl;
+	
+	// Prints all the rows of the table
+	for(unsigned int i = 0; i < size; i++)
+	{
+		cout << setw(30) << tfidfVecQuery[i].GetName();
+		cout << setw(15) << tfidfVecQuery[i].GetTF();
+		cout << setw(15) << setprecision(5) << fixed << tfidfVecQuery[i].GetIDF();
+		cout << setw(15) << setprecision(5) << fixed << tfidfVecQuery[i].GetTFIDF();
+		cout << endl; 
+	}
+	
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::printCSInfo(){			// prints final output. doc similarity info after sort
         cout << "Doc #: " << docID << "\tCos Sim: " << setprecision(5) << fixed << cosSimilarity << endl;
