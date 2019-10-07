@@ -234,12 +234,12 @@ int main() {
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector
 		double tempCosSim = 0;
-		tempCosSim = tfidfColVec[x].cosineSimilarity();	//FIXME  calculates cosine similarity between TFIDF of doc and TFIDF of correlated query TFIDF
+		tempCosSim = tfidfColVec[x].cosineSimilarity();			// calculates cosine similarity between TFIDF of doc and TFIDF of query 
 		tfidfColVec[x].SetCosineSimilarity(tempCosSim); 		// set cosine similariry of doc to query in TFIDF obj for doc
 	}
 
 //--------------------------------------------- TFIDF Collection Vector Sort -----------------------------------------------------
-
+	
 	sort(tfidfColVec.begin(), tfidfColVec.end());				// sorts TFIDF colection vector by cosine similarity
 
 //---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
@@ -247,14 +247,14 @@ int main() {
 	cout << endl << "The top most similar documents are:" << endl;
 
 	if(tfidfColVec.size() >= 5){						// for first 5 docs after the sort
-		for(int x=0; x<5; x++){
+		for(int x=4; x>0; x--){
 			if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
 				tfidfColVec[x].printCSInfo();			// print info
 			}
 		}
 	}
 	else{
-		for(int x=0; x<tfidfColVec.size(); x++){			// if less than 5 docs, look at whole vector 
+		for(int x=tfidfColVec.size()-1; x>0; x--){			// if less than 5 docs, look at whole vector 
         	        if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
                                 tfidfColVec[x].printCSInfo();			// print info 
                         }
