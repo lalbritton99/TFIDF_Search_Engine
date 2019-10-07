@@ -36,8 +36,8 @@ class tf_idfCol {
 	
 		void SetTFIDFvec(vector<tf_idf> &vecInput);			// takes in a tf_idf vector, and saves it to the tfidfVec
 		vector<tf_idf>*GetTFIDFvec();						// returns a pointer to the tfidfVec
-		
-		void SetTFIDFQueryVec(vector<tf_idf> &vecInput);
+		void SetTFIDFQueryVec(vector<tf_idf> &vecInput);	// takes in a tf_idf vector, and saves it to the tfidfVecQuery
+		vector<tf_idf>* GetQueryVec();						// returns a pointer to the tfidfVecQuery
 		
 		bool operator < (tf_idfCol const &T){ 				// overload < operator
 			return cosSimilarity < T.cosSimilarity;

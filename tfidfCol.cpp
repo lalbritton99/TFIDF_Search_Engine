@@ -30,7 +30,10 @@ void tf_idfCol::SetTFIDFQueryVec(vector<tf_idf> &vecInput)
 {
 	tfidfVecQuery = vecInput;
 }
-
+vector<tf_idf>* tf_idfCol::GetQueryVec(){
+	vector<tf_idf>* tfidfPointer = &tfidfVecQuery;
+	return tfidfPointer;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 void tf_idfCol::FindTF(const vector<string> &AllWords){		// gets the term frequency for every word
 	
@@ -134,12 +137,6 @@ void tf_idfCol::FindQueryTF(const vector<string> &QueryWords){		// gets the term
 				break;
 				
 			}
-			//else
-			//{
-			//	tfidfObject.SetName(QueryWords[i]);
-			//	tfidfObject.SetTF(0);
-			//	tfidfVecQuery.push_back(tfidfObject);
-			//}
 		}
 	}
 }

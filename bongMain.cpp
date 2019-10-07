@@ -182,13 +182,13 @@ int main() {
 
 		tfidfColVec[i].FindQueryTF(finalQuery);	
 		tfidfColVec[i].SetDocID(Documents_vec[i].GetID());
-		tfidfQueryVec.push_back(tfidfColVec[i]);
+		//tfidfQueryVec.push_back(tfidfColVec[i]);
 	}
 	
 	// Finds the IDF for every word in the query for every doc
 	for(unsigned int i = 0; i < docSize; i++)								// loops through all docs
 	{
-		vector<tf_idf> tempVec = *tfidfQueryVec[i].GetTFIDFvec();			// temp. vector to hold all tfidf objects for a QUERY
+		vector<tf_idf> tempVec = *tfidfColVec[i].GetQueryVec();			// temp. vector to hold all tfidf objects for a QUERY
 		
 		for(unsigned int k = i; k < docSize; k++)							// loops through every doc again							
 		{
@@ -205,8 +205,8 @@ int main() {
 						if(tempVec[j].GetName() == tempVec2[m].GetName())
 						{
 							tempVec[j].SetIDF(tempVec2[m].GetIDF());		// increase doc counter for that word
-							cout << tempVec[j].GetIDF() << endl;
-							tfidfQueryVec[i].SetTFIDFQueryVec(tempVec);		// sets the temporary vector to the real vector
+							//cout << tempVec[j].GetIDF() << endl;
+							tfidfColVec[i].SetTFIDFQueryVec(tempVec);		// sets the temporary vector to the real vector
 							break;
 						}
 					}
@@ -218,14 +218,14 @@ int main() {
 	// Finds the TFIDF for every word in the query for every doc
 	for (unsigned int i = 0; i < docSize; i++)
 	{
-		tfidfQueryVec[i].FindQueryTFIDF();
+		tfidfColVec[i].FindQueryTFIDF();
 	}
 	
 //---------------------------------------------------- Printing TFIDF Information -----------------------------------------------
 	// prints tfidf information for first doc
 	tfidfColVec[0].Print();
 	
-	for(unsigned int i = 0; i < tfidfQueryVec.size(); i++)
+	for(unsigned int i = 0; i < tfidfColVec.size(); i++)
 	{
 		cout << "--------" << endl;
 		tfidfColVec[i].PrintQuery();
