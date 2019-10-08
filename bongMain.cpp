@@ -230,12 +230,13 @@ int main() {
 	
 	sort(tfidfColVec.begin(), tfidfColVec.end());				// sorts TFIDF colection vector by cosine similarity
 
+
 //---------------------------------------------- Final Sorted Output Print -------------------------------------------------------
 
 	cout << endl << "The top most similar documents are:" << endl;
 
 	if(tfidfColVec.size() >= 5){						// for first 5 docs after the sort
-		for(int x=4; x>0; x--){
+		for(int x=tfidfColVec.size()-1; x>tfidfColVec.size()-5; x--){
 			if(tfidfColVec[x].GetCosineSimilarity() != 0){		// if cosine similarity is not 0
 				tfidfColVec[x].printCSInfo();			// print info
 			}
