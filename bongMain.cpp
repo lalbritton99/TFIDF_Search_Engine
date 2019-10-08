@@ -130,7 +130,6 @@ int main() {
 	{
 		tfidfClass.FindTF(Documents_vec[i].GetContent());
 		tfidfClass.SetDocID(Documents_vec[i].GetID());
-		
 		tfidfColVec.push_back(tfidfClass);
 	}
 	
@@ -153,7 +152,6 @@ int main() {
 						if(tempVec[j].GetName() == tempVec2[m].GetName())
 						{
 							tempVec[j].SetDocCount();						// increase doc counter for that word
-							//cout << tempVec[j].GetDocCount() << endl;
 							tfidfColVec[i].SetTFIDFvec(tempVec);			// sets the temporary vector to the real vector
 							break;
 						}
@@ -199,8 +197,7 @@ int main() {
 					{
 						if(tempVec[j].GetName() == tempVec2[m].GetName())
 						{
-							tempVec[j].SetIDF(tempVec2[m].GetIDF());		// increase doc counter for that word
-							//cout << tempVec[j].GetIDF() << endl;
+							tempVec[j].SetDocCount();
 							tfidfColVec[i].SetTFIDFQueryVec(tempVec);		// sets the temporary vector to the real vector
 							break;
 						}
@@ -213,18 +210,14 @@ int main() {
 	// Finds the TFIDF for every word in the query for every doc
 	for (unsigned int i = 0; i < docSize; i++)
 	{
+		tfidfColVec[i].FindQueryIDF(docSize);
 		tfidfColVec[i].FindQueryTFIDF();
 	}
 	
 //---------------------------------------------------- Printing TFIDF Information -----------------------------------------------
-	// prints tfidf information for first doc
-	tfidfColVec[0].Print();
 	
-	for(unsigned int i = 0; i < tfidfColVec.size(); i++)
-	{
-		cout << "--------" << endl;
-		tfidfColVec[i].PrintQuery();
-	}
+	tfidfColVec[0].Print();
+
 //------------------------------------- TFIDF Collection Cosine Similarity Calculation -------------------------------------------
 
 	for(int x=0; x<tfidfColVec.size(); x++){				// loop through TFIDF Collection Vector

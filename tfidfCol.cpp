@@ -12,25 +12,25 @@ string tf_idfCol::GetDocID(){						// accessor for docID
 		return docID;
 }
 
-void tf_idfCol::SetCosineSimilarity(double cosSim){                                // mutator for Cosine Similarity
+void tf_idfCol::SetCosineSimilarity(double cosSim){     		// mutator for Cosine Similarity
 	cosSimilarity = cosSim;
 }
 
 double tf_idfCol::GetCosineSimilarity(){						// accessor for Cosine Similarity
 	return cosSimilarity;
 }
-void tf_idfCol::SetTFIDFvec(vector<tf_idf> &vecInput){
+void tf_idfCol::SetTFIDFvec(vector<tf_idf> &vecInput){			// takes in a tf_idf vector, and saves it to the tfidfVec
 	tfidfVec = vecInput;
 }
-vector<tf_idf>* tf_idfCol::GetTFIDFvec(){
+vector<tf_idf>* tf_idfCol::GetTFIDFvec(){						// returns a pointer to the tfidfVec
 	vector<tf_idf>* tfidfPointer = &tfidfVec;
 	return tfidfPointer;
 }
-void tf_idfCol::SetTFIDFQueryVec(vector<tf_idf> &vecInput)
+void tf_idfCol::SetTFIDFQueryVec(vector<tf_idf> &vecInput)		// takes in a tf_idf vector, and saves it to the tfidfVecQuery
 {
 	tfidfVecQuery = vecInput;
 }
-vector<tf_idf>* tf_idfCol::GetQueryVec(){
+vector<tf_idf>* tf_idfCol::GetQueryVec(){						// returns a pointer to the tfidfVecQuery
 	vector<tf_idf>* tfidfPointer = &tfidfVecQuery;
 	return tfidfPointer;
 }
@@ -90,7 +90,6 @@ void tf_idfCol::FindIDF(unsigned int N){
 	
 	for(int i = 0; i < size; i++)
 	{
-		//cout << tfidfVec[i].GetDocCount() << endl;
 		if(tfidfVec[i].GetDocCount() == 0)
 		{
 			tempIDF = 0;
@@ -130,9 +129,10 @@ void tf_idfCol::FindQueryTF(const vector<string> &QueryWords){		// gets the term
 			count = 0;
 			if(tfidfVec[j].GetName() == QueryWords[i])	// checks if the word in the query is in the tfidf vector
 			{
+				count = 1;
 				// adds to the query vector for each doc if the word is used within the doc
 				tfidfObject.SetName(QueryWords[i]);
-				tfidfObject.SetTF(tfidfVec[j].GetTF());
+				tfidfObject.SetTF(count);
 				tfidfVecQuery.push_back(tfidfObject);
 				break;
 				
@@ -219,7 +219,6 @@ void tf_idfCol::PrintQuery(){	// prints all the words
 	}
 	
 }
-//-------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 void tf_idfCol::printCSInfo(){			// prints final output. doc similarity info after sort
         cout << "Doc #: " << docID << "\tCos Sim: " << setprecision(5) << fixed << cosSimilarity << endl;
