@@ -15,7 +15,6 @@ int main() {
 	vector<tf_idfCol> tfidfColVec;			// vector of all tfidf collection objects
 	vector<tf_idfCol> tfidfQueryVec;		// vector for all tfidfs for every query word
 	tf_idfCol tfidfClass;					// instance of tfidf collection class
-// fixme - testing parts 1 and 2
 
 	// runs the stopwords and documents file functions
 	vector<string> stopwords_vec = stopwordOpener();
