@@ -185,18 +185,18 @@ int main() {
 	// Finds the IDF for every word in the query for every doc
 	for(unsigned int i = 0; i < docSize; i++)								// loops through all docs
 	{
-		vector<tf_idf> tempVec = *tfidfColVec[i].GetQueryVec();			// temp. vector to hold all tfidf objects for a QUERY
+		vector<tf_idf> tempVec = *tfidfColVec[i].GetQueryVec();						// temp. vector to hold all tfidf objects for a QUERY
 		
 		for(unsigned int k = i; k < docSize; k++)							// loops through every doc again							
 		{
-			vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();		// temp. vector to hold all tfidf objects for a DOC
+			vector<tf_idf> tempVec2 = *tfidfColVec[k].GetTFIDFvec();				// temp. vector to hold all tfidf objects for a DOC
 													
 			// makes sure it doesnt check itself
 			if(Documents_vec[i].GetID() != Documents_vec[k].GetID())
 			{
-				for(unsigned int j = 0; j < tempVec.size(); j++)			// loops through every word in a given QUERY
+				for(unsigned int j = 0; j < tempVec.size(); j++)				// loops through every word in a given QUERY
 				{
-					for (unsigned int m = j; m < tempVec2.size(); m++)		// loops through every word in every doc 
+					for (unsigned int m = j; m < tempVec2.size(); m++)			// loops through every word in every doc 
 					{
 						if(tempVec[j].GetName() == tempVec2[m].GetName())
 						{
