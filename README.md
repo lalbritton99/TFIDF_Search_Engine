@@ -1,8 +1,9 @@
-Group members:
+Implements a TF*IDF algorithm search on a set of documents after parsing and porter stemming to return most relevant documents based on search terms
 
-*	Marcus
-*	Jeremy
-*	Austin
+Group members:
+*	Marcus 
+*	Jeremy Kracy
+*	Austin Reeves
 *	Logan Albritton
 
 Progress:
